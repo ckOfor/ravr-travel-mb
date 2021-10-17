@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "Ravr",
+    "slug": "Ravr",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "Ravr"
+}
