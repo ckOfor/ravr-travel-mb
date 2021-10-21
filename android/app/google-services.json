@@ -1,0 +1,175 @@
+{
+  "project_info": {
+    "project_number": "547133332369",
+    "firebase_url": "https://ravr-56ee2.firebaseio.com",
+    "project_id": "ravr-56ee2",
+    "storage_bucket": "ravr-56ee2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:547133332369:android:7b7ef98c90404a22cdd830",
+        "android_client_info": {
+          "package_name": "com.ravr"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "547133332369-rc41ghmt2jthoucrqurs8vmgf7s378k8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ravr",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "547133332369-thgh0c22kdtvejsai30g2283rbgsg5ij.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ravr",
+            "certificate_hash": "44379c27455d87a63b5e88b0de097a6ac8c1f419"
+          }
+        },
+        {
+          "client_id": "547133332369-kq43s986h2mfl44qhp4vucdim0crqjag.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKovFVSjdLZFr3BMb1u7yN9yEtqGqnI7Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "547133332369-kq43s986h2mfl44qhp4vucdim0crqjag.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "547133332369-gfbvhl59rs3c6uil2jqisjdtj0c9nk0k.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.sympleInc.ravrapp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:547133332369:android:758684e7e468e5dfcdd830",
+        "android_client_info": {
+          "package_name": "com.ravr.ravrapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "547133332369-hptqagt68uav32cbvbnrk6997lagcht6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ravr.ravrapp",
+            "certificate_hash": "44379c27455d87a63b5e88b0de097a6ac8c1f419"
+          }
+        },
+        {
+          "client_id": "547133332369-it4u1pn80o3ac4s35ms1sqhun8ng3a35.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ravr.ravrapp",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "547133332369-kq43s986h2mfl44qhp4vucdim0crqjag.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKovFVSjdLZFr3BMb1u7yN9yEtqGqnI7Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "547133332369-kq43s986h2mfl44qhp4vucdim0crqjag.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "547133332369-gfbvhl59rs3c6uil2jqisjdtj0c9nk0k.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.sympleInc.ravrapp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:547133332369:android:5916c56ecd3564cecdd830",
+        "android_client_info": {
+          "package_name": "com.ravrapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "547133332369-5t2j7voda01dmk3r3r9avnonm71egrlj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ravrapp",
+            "certificate_hash": "7926e2c5c074aa125712f48c52047a305c0fc6ae"
+          }
+        },
+        {
+          "client_id": "547133332369-bf944ih32vhskva40v0qi28alhf34tht.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ravrapp",
+            "certificate_hash": "657a1b486d71780b25ad43976db757a100df17b2"
+          }
+        },
+        {
+          "client_id": "547133332369-j0g443a7amqtrf1bf6gfd0bfbocb0beb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ravrapp",
+            "certificate_hash": "732409ee38eee4cf26c3106f4104a6a1eb343f16"
+          }
+        },
+        {
+          "client_id": "547133332369-kq43s986h2mfl44qhp4vucdim0crqjag.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKovFVSjdLZFr3BMb1u7yN9yEtqGqnI7Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "547133332369-kq43s986h2mfl44qhp4vucdim0crqjag.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "547133332369-gfbvhl59rs3c6uil2jqisjdtj0c9nk0k.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.sympleInc.ravrapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -132,11 +132,11 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.ravr"
+        applicationId "com.ravr.ravrapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "1.0.1"
     }
     splits {
         abi {
@@ -184,6 +184,19 @@ android {
 }
 
 dependencies {
+    //Add these lines
+    implementation "com.google.android.gms:play-services-base:17.6.0"
+    implementation "com.google.firebase:firebase-core:19.0.2"
+    implementation "com.google.firebase:firebase-messaging:22.0.0"
+    implementation 'com.google.firebase:firebase-iid:21.1.0'
+    implementation(project(':react-native-firebase')) {
+        transitive = false
+    }
+
+    implementation project(':react-native-fbsdk-next')
+
+    implementation project(':react-native-android-open-settings')
+
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
@@ -217,3 +230,6 @@ task copyDownloadableDepsToLibs(type: Copy) {
 }
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
+
+//Put this on bottom of file
+apply plugin: 'com.google.gms.google-services'

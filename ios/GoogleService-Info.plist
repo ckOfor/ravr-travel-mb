@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>547133332369-vtj6rboalnqio16er0seav2jjfqq40sn.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.547133332369-vtj6rboalnqio16er0seav2jjfqq40sn</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBc9Xa4Y1tvzBeIja8ZsQZ6_lS9Dk97quA</string>
+	<key>GCM_SENDER_ID</key>
+	<string>547133332369</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>org.sympleInc.ravrapp</string>
+	<key>PROJECT_ID</key>
+	<string>ravr-56ee2</string>
+	<key>STORAGE_BUCKET</key>
+	<string>ravr-56ee2.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false/>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true/>
+	<key>IS_GCM_ENABLED</key>
+	<true/>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true/>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:547133332369:ios:dcf228dfb9c7ca09cdd830</string>
+	<key>DATABASE_URL</key>
+	<string>https://ravr-56ee2.firebaseio.com</string>
+</dict>
+</plist>
