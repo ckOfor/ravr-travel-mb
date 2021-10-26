@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "splash.png",
+      "filename" : "Splash_light.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
@@ -12,12 +12,12 @@
           "value" : "dark"
         }
       ],
-      "filename" : "splashTwo.png",
+      "filename" : "Splash_dark.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "splash@2x.png",
+      "filename" : "Splash_light@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
@@ -28,12 +28,12 @@
           "value" : "dark"
         }
       ],
-      "filename" : "splashTwo@2x.png",
+      "filename" : "Splash_dark@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "splash@3x.png",
+      "filename" : "Splash_light@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     },
@@ -44,7 +44,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "splashTwo@3x.png",
+      "filename" : "Splash_dark@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

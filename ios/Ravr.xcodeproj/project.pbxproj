@@ -13,6 +13,7 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		7595C7C250E501370562BCBB /* libPods-Ravr.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E55E3A13DBC26F851965106 /* libPods-Ravr.a */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
+		F78F51C42726966F00CAEDCB /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F78F51C32726966F00CAEDCB /* SplashScreen.storyboard */; };
 		F7AFD635271C5948003EE184 /* Rubik-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F7AFD62B271C5948003EE184 /* Rubik-Bold.ttf */; };
 		F7AFD636271C5948003EE184 /* Rubik-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F7AFD62C271C5948003EE184 /* Rubik-LightItalic.ttf */; };
 		F7AFD637271C5948003EE184 /* Rubik-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F7AFD62D271C5948003EE184 /* Rubik-BlackItalic.ttf */; };
@@ -28,7 +29,6 @@
 		F7AFD645271C6476003EE184 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F7AFD644271C6476003EE184 /* GoogleService-Info.plist */; };
 		F7AFD64D271D0569003EE184 /* client_151859030837-io5d5ic4b356gfu2dnof5kj2u0jb1e5u.apps.googleusercontent.com.plist in Resources */ = {isa = PBXBuildFile; fileRef = F7AFD64C271D0569003EE184 /* client_151859030837-io5d5ic4b356gfu2dnof5kj2u0jb1e5u.apps.googleusercontent.com.plist */; };
 		F7AFD650271D0D20003EE184 /* noop-file.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7AFD64F271D0D20003EE184 /* noop-file.swift */; };
-		F7F2A0D8271E0B380084C443 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F7F2A0D7271E0B370084C443 /* SplashScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +46,7 @@
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		F0932C0EF7E1A44D407C53F9 /* Pods-Ravr.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ravr.release.xcconfig"; path = "Target Support Files/Pods-Ravr/Pods-Ravr.release.xcconfig"; sourceTree = "<group>"; };
+		F78F51C32726966F00CAEDCB /* SplashScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SplashScreen.storyboard; sourceTree = "<group>"; };
 		F7AFD62B271C5948003EE184 /* Rubik-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Bold.ttf"; sourceTree = "<group>"; };
 		F7AFD62C271C5948003EE184 /* Rubik-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-LightItalic.ttf"; sourceTree = "<group>"; };
 		F7AFD62D271C5948003EE184 /* Rubik-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-BlackItalic.ttf"; sourceTree = "<group>"; };
@@ -63,7 +64,6 @@
 		F7AFD64C271D0569003EE184 /* client_151859030837-io5d5ic4b356gfu2dnof5kj2u0jb1e5u.apps.googleusercontent.com.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "client_151859030837-io5d5ic4b356gfu2dnof5kj2u0jb1e5u.apps.googleusercontent.com.plist"; path = "../client_151859030837-io5d5ic4b356gfu2dnof5kj2u0jb1e5u.apps.googleusercontent.com.plist"; sourceTree = "<group>"; };
 		F7AFD64E271D0D20003EE184 /* Ravr-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Ravr-Bridging-Header.h"; sourceTree = "<group>"; };
 		F7AFD64F271D0D20003EE184 /* noop-file.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "noop-file.swift"; sourceTree = "<group>"; };
-		F7F2A0D7271E0B370084C443 /* SplashScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SplashScreen.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,7 +96,7 @@
 				13B07FB71A68108700A75B9A /* main.m */,
 				F7AFD64F271D0D20003EE184 /* noop-file.swift */,
 				F7AFD64E271D0D20003EE184 /* Ravr-Bridging-Header.h */,
-				F7F2A0D7271E0B370084C443 /* SplashScreen.storyboard */,
+				F78F51C32726966F00CAEDCB /* SplashScreen.storyboard */,
 			);
 			name = Ravr;
 			sourceTree = "<group>";
@@ -240,7 +240,7 @@
 				F7AFD638271C5948003EE184 /* Rubik-Medium.ttf in Resources */,
 				F7AFD639271C5948003EE184 /* Rubik-BoldItalic.ttf in Resources */,
 				F7AFD63A271C5948003EE184 /* Rubik-Black.ttf in Resources */,
-				F7F2A0D8271E0B380084C443 /* SplashScreen.storyboard in Resources */,
+				F78F51C42726966F00CAEDCB /* SplashScreen.storyboard in Resources */,
 				F7AFD63B271C5948003EE184 /* Rubik-MediumItalic.ttf in Resources */,
 				F7AFD63C271C5948003EE184 /* Rubik-RegularItalic.ttf in Resources */,
 				F7AFD63D271C5948003EE184 /* Rubik-Light.ttf in Resources */,
@@ -397,7 +397,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Ravr/Ravr.entitlements;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = 9LTMQ2LQXZ;
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -411,7 +411,6 @@
 					"\"${PODS_ROOT}/Headers/Public/EXApplication\"",
 					"\"${PODS_ROOT}/Headers/Public/EXConstants\"",
 					"\"${PODS_ROOT}/Headers/Public/EXErrorRecovery\"",
-					"\"${PODS_ROOT}/Headers/Public/EXFileSystem\"",
 					"\"${PODS_ROOT}/Headers/Public/EXFont\"",
 					"\"${PODS_ROOT}/Headers/Public/EXImageLoader\"",
 					"\"${PODS_ROOT}/Headers/Public/EXKeepAwake\"",
@@ -498,7 +497,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Ravr/Ravr.entitlements;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = 9LTMQ2LQXZ;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -507,7 +506,6 @@
 					"\"${PODS_ROOT}/Headers/Public/EXApplication\"",
 					"\"${PODS_ROOT}/Headers/Public/EXConstants\"",
 					"\"${PODS_ROOT}/Headers/Public/EXErrorRecovery\"",
-					"\"${PODS_ROOT}/Headers/Public/EXFileSystem\"",
 					"\"${PODS_ROOT}/Headers/Public/EXFont\"",
 					"\"${PODS_ROOT}/Headers/Public/EXImageLoader\"",
 					"\"${PODS_ROOT}/Headers/Public/EXKeepAwake\"",

@@ -13,7 +13,7 @@ import { LoginManager } from "react-native-fbsdk-next";
 import { Formik, FormikProps } from "formik";
 import * as Yup from "yup";
 import firebase from 'react-native-firebase';
-import { FontAwesome, AntDesign, Fontisto, MaterialCommunityIcons } from 'react-native-vector-icons';
+import { FontAwesome, AntDesign, MaterialIcons } from 'react-native-vector-icons';
 
 
 // Setting the facebook app id using setAppID
@@ -154,7 +154,7 @@ const EditProfile = ({ navigation, route, authSearchKey }) => {
         dispatch(editProfile(fullName, phoneNumber))
     }
 
-    
+
     return (
         <KeyboardAvoidingView
             enabled={true}
@@ -188,12 +188,20 @@ const EditProfile = ({ navigation, route, authSearchKey }) => {
                     >
                         <TouchableOpacity
                             onPress={() => navigation.goBack()}
+                            style={{
+                                top: 10
+                            }}
                         >
-                            <Image
+                            {/* <Image
                                 style={APP_LOGO}
                                 source={images.appLogo}
                                 resizeMethod={'auto'}
                                 resizeMode='cover'
+                            /> */}
+                            <MaterialIcons
+                                name="keyboard-backspace"
+                                color={colors.ravrPurple}
+                                size={26}
                             />
                         </TouchableOpacity>
 

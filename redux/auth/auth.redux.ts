@@ -1,4 +1,4 @@
-import { SET_COUPONS, SOCIAL_AUTHENTICATION, SOCIAL_AUTHENTICATION_FAILURE, SOCIAL_AUTHENTICATION_SUCCESS, TOGGLE_BIOMETRICS } from "."
+import { SET_BALANCE, SET_COUPONS, SET_LOCAL_TRIPS, SET_POPULAR_TRIPS, SET_TRANSACTIONS, SET_TRENDING_TRIPS, SOCIAL_AUTHENTICATION, SOCIAL_AUTHENTICATION_FAILURE, SOCIAL_AUTHENTICATION_SUCCESS, TOGGLE_BIOMETRICS } from "."
 import {
 	AuthAction,
 	AuthState,
@@ -8,10 +8,31 @@ import {
 	SIGN_IN_USER_SUCCESS,
 	SET_USER_DETAILS,
 	IS_LOGGED_IN,
+	SET_SEARCH_RESULTS,
 } from "./auth.types"
 
 const IUser = {
-
+	"authType": "",
+	"birthDate": "",
+	"coupons": [],
+	"createdAt": "",
+	"email": "",
+	"fullName": "",
+	"gender": "",
+	"hasPassword": false,
+	"id": 0,
+	"notificationID": "",
+	"password": "",
+	"phoneNumber": "",
+	"pictureURL": "",
+	"pin": null,
+	"ravrId": "",
+	"status": "",
+	"suspensionReason": "",
+	"travelName": null,
+	"updatedAt": "",
+	"wallets": [],
+	"transactionPin": "",
 }
 
 const initialState: AuthState = {
@@ -19,7 +40,13 @@ const initialState: AuthState = {
 	loading: false,
 	isLoggedIn: false,
 	user: IUser,
-	coupons: []
+	coupons: [],
+	transactions: [],
+	balance: {},
+	popular: [],
+	trending: [],
+	local: [],
+	searchResults: [],
 }
 
 export function authReducer(
@@ -72,6 +99,42 @@ export function authReducer(
 			return {
 				...state,
 				coupons: action.payload,
+			}
+
+		case SET_TRANSACTIONS:
+			return {
+				...state,
+				transactions: action.payload,
+			}
+
+		case SET_BALANCE:
+			return {
+				...state,
+				balance: action.payload,
+			}
+
+		case SET_POPULAR_TRIPS:
+			return {
+				...state,
+				popular: action.payload,
+			}
+
+		case SET_TRENDING_TRIPS:
+			return {
+				...state,
+				trending: action.payload,
+			}
+
+		case SET_LOCAL_TRIPS:
+			return {
+				...state,
+				local: action.payload,
+			}
+
+		case SET_SEARCH_RESULTS:
+			return {
+				...state,
+				searchResults: action.payload,
 			}
 
 		default:

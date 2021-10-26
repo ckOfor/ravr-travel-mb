@@ -17,6 +17,7 @@ import {
 } from "@env"
 import { appDetailsSettings } from "react-native-android-open-settings"
 import CryptoJS from 'crypto-js';
+import { AntDesign } from 'react-native-vector-icons';
 
 // redux
 
@@ -376,7 +377,7 @@ const Profile = ({ navigation, route, authSearchKey }) => {
                             }}
                             onPress={() => navigation.navigate('EditProfile')}
                         >
-                            <Image
+                            {/* <Image
                                 source={images.editIcon}
                                 style={{
                                     height: 20,
@@ -384,6 +385,11 @@ const Profile = ({ navigation, route, authSearchKey }) => {
                                 }}
                                 resizeMethod={'auto'}
                                 resizeMode='cover'
+                            /> */}
+                            <AntDesign
+                                name="setting"
+                                color={colors.white}
+                                size={26}
                             />
                         </TouchableOpacity>
 
@@ -453,9 +459,7 @@ const Profile = ({ navigation, route, authSearchKey }) => {
                             marginHorizontal: 20,
                         }}
                     >
-                        <View
-                        // onPress={() => navigation.navigate('Redeem')}
-                        >
+                        <View>
                             <Text
 
                                 style={discoverTextStyle}

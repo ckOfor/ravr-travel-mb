@@ -37,6 +37,30 @@ type setUserDetails = {
 	payload: IUser
 }
 
+export const SET_SEARCH_RESULTS = "SET_SEARCH_RESULTS"
+type setSearchResult = {
+	type: typeof SET_SEARCH_RESULTS
+	payload: Array<any>
+}
+
+export const SET_POPULAR_TRIPS = "SET_POPULAR_TRIPS"
+type setPopularTrips = {
+	type: typeof SET_POPULAR_TRIPS
+	payload: any
+}
+
+export const SET_TRENDING_TRIPS = "SET_TRENDING_TRIPS"
+type setTrendingTrips = {
+	type: typeof SET_TRENDING_TRIPS
+	payload: any
+}
+
+export const SET_LOCAL_TRIPS = "SET_LOCAL_TRIPS"
+type setLocalTrips = {
+	type: typeof SET_LOCAL_TRIPS
+	payload: any
+}
+
 export const SET_COUPONS = "SET_COUPONS"
 type SetCoupons = {
 	type: typeof SET_COUPONS
@@ -147,31 +171,45 @@ type ToggleOnline = {
 	payload: string
 }
 
+export const SET_TRANSACTIONS = "SET_TRANSACTIONS"
+type SetTransactions = {
+	type: typeof SET_TRANSACTIONS
+	payload: Array<any>
+}
+
+export const SET_BALANCE = "SET_BALANCE"
+type SetBalance = {
+	type: typeof SET_BALANCE
+	payload: any
+}
+
+
 export type IWallet = {
 
 }
 
 export type IUser = {
-	"authType": "",
-	"birthDate": null,
-	"coupons": [],
-	"createdAt": "",
-	"email": "",
-	"fullName": "",
-	"gender": "",
-	"hasPassword": false,
-	"id": 0,
-	"notificationID": "",
-	"password": "",
-	"phoneNumber": "",
-	"pictureURL": "",
-	"pin": null,
-	"ravrId": "",
-	"status": "",
-	"suspensionReason": "",
-	"travelName": null,
-	"updatedAt": "",
-	"wallets": []
+	"authType": string
+	"birthDate": string
+	"coupons": Array<any>
+	"createdAt": string
+	"email": string
+	"fullName": string
+	"gender": string
+	"hasPassword": boolean
+	"id": number
+	"notificationID": string
+	"password": string
+	"phoneNumber": string
+	"pictureURL": string
+	"pin": string
+	"ravrId": string
+	"status": string
+	"suspensionReason": string
+	"travelName": string
+	"updatedAt": string
+	"wallets": Array<any>
+	"transactionPin": string
 }
 
 export type ICreateWallet = {
@@ -184,6 +222,12 @@ export type AuthState = {
 	user: IUser
 	loading: boolean
 	coupons: Array<any>
+	transactions: Array<any>
+	balance: any
+	popular: Array<any>
+	trending: Array<any>
+	local: Array<any>
+	searchResults: Array<any>
 }
 
 export type authCredentials = {
@@ -204,3 +248,9 @@ export type AuthAction =
 	| SocialAuthenticationActionSuccess
 	| ToggleOnline
 	| SetCoupons
+	| SetTransactions
+	| SetBalance
+	| setPopularTrips
+	| setTrendingTrips
+	| setLocalTrips
+	| setSearchResult

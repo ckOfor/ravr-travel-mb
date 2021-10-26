@@ -8,6 +8,17 @@ export const images = {
     bikeMan: require("../assets/images/bike-bk.png"),
     background: require("../assets/images/background.png"),
     editIcon: require("../assets/images/edit-icon.png"),
+
+    // Wallet
+    cardBackground: require("../assets/images/cardBackground.png"),
+    history: require("../assets/images/history.png"),
+    withdraw: require("../assets/images/withdraw.png"),
+    creditIcon: require("../assets/images/creditIcon.png"),
+    debitIcon: require("../assets/images/debit.png"),
+
+    // trips
+    shareIcon: require("../assets/images/shareIcon.png"),
+
 }
 
 export type ImageTypes = keyof typeof images

@@ -15,7 +15,6 @@ import TransactionCard from "../../components/TransactionCard";
 import { Feather, MaterialIcons } from '@expo/vector-icons';
 import SlidingUpPanel from "rn-sliding-up-panel";
 
-
 // redux
 
 // components
@@ -350,7 +349,7 @@ const Redeem = ({ navigation, route, authSearchKey }) => {
                                         marginRight: 10
                                     }}
                                 >
-                                    {!loading && 'List is empty :( drag screen to refresh'}
+                                    {!loading && `${translate('common.listIsEmpty')}`}
                                 </Text>
                             </View>
                         }
@@ -391,9 +390,7 @@ const Redeem = ({ navigation, route, authSearchKey }) => {
                             marginTop: 10,
                         }}
                     >
-                        <View
-                        // onPress={() => navigation.navigate('Redeem')}
-                        >
+                        <View>
                             <Text
 
                                 style={discoverTextStyle}

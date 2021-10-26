@@ -4,7 +4,7 @@ import React from "react";
 // third-party
 import { createMaterialBottomTabNavigator, MaterialBottomTabScreenProps } from '@react-navigation/material-bottom-tabs';
 import { RouteProp } from "@react-navigation/native";
-import { FontAwesome, FontAwesome5, Fontisto, MaterialCommunityIcons } from 'react-native-vector-icons';
+import { FontAwesome, FontAwesome5, Fontisto, Ionicons } from 'react-native-vector-icons';
 
 // screens
 import LandingPage from "../screens/landing";
@@ -16,6 +16,8 @@ import ProfileNavigator from "./profile";
 
 // utils
 import useReduxStore from "../utils/hooks/useRedux";
+import WalletNavigator from "./wallet";
+import MyTripsNavigator from "./myTrips";
 
 export type Routes = {
     Landing: undefined;
@@ -71,7 +73,7 @@ const RootNavigator = () => {
                 isLoggedIn && (
                     <Tab.Screen
                         name="Trips"
-                        component={LandingPage}
+                        component={MyTripsNavigator}
                         options={{
                             tabBarIcon: ({ focused }) => (
                                 <Fontisto
@@ -90,11 +92,11 @@ const RootNavigator = () => {
                 isLoggedIn && (
                     <Tab.Screen
                         name="Finance"
-                        component={LandingPage}
+                        component={WalletNavigator}
                         options={{
                             tabBarIcon: ({ focused }) => (
-                                <FontAwesome
-                                    name="bank"
+                                <Ionicons
+                                    name="md-wallet-outline"
                                     color={focused ? colors.ravrPurple : colors.blue1}
                                     size={24}
                                 />
