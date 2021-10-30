@@ -14,6 +14,7 @@ import { Profile } from "react-native-fbsdk-next";
 // Setting the facebook app id using setAppID
 // Remember to set CFBundleURLSchemes in Info.plist on iOS if needed
 Settings.setAppID('563385481168762');
+import * as AppleAuthentication from 'expo-apple-authentication';
 
 
 // redux
@@ -241,7 +242,7 @@ const Auth = ({ navigation, route, authSearchKey }) => {
                         <View
                             style={SOCIAL_VIEW}
                         >
-                            {/* <Button
+                            <Button
                                 style={IMAGE_BUTTON}
                                 onPress={() => facebookLogin()}
                                 disabled={isLoading}
@@ -252,7 +253,7 @@ const Auth = ({ navigation, route, authSearchKey }) => {
                                     resizeMethod={'auto'}
                                     resizeMode='cover'
                                 />
-                            </Button> */}
+                            </Button>
 
                             <Text
 
@@ -273,7 +274,60 @@ const Auth = ({ navigation, route, authSearchKey }) => {
                                     resizeMode='cover'
                                 />
                             </Button>
+
+
                         </View>
+
+                        {
+                            Platform.OS === "ios" && (
+                                <AppleAuthentication.AppleAuthenticationButton
+                                    buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
+                                    buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.BLACK}
+                                    cornerRadius={5}
+                                    style={{
+                                        width: Layout.window.width / 1.4,
+                                        height: 50,
+                                        backgroundColor: colors.transparent,
+                                        borderWidth: 2,
+                                        borderColor: colors.white,
+                                        borderRadius: 10,
+                                        marginTop: 20,
+                                        justifyContent: 'flex-end',
+                                        alignSelf: 'center'
+                                    }}
+                                    onPress={async () => {
+                                        try {
+                                            const credential = await AppleAuthentication.signInAsync({
+                                                requestedScopes: [
+                                                    AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+                                                    AppleAuthentication.AppleAuthenticationScope.EMAIL,
+                                                ],
+                                            });
+                                            // signed in
+
+                                            const payload = {
+                                                fullName: `${credential.fullName?.givenName} ${credential.fullName?.familyName}`,
+                                                email: credential.email,
+                                                password: credential.user,
+                                                pictureURL: '',
+                                                authType: 'apple'
+                                            }
+
+                                            console.log(credential)
+
+                                            dispatch(signInSignUp(payload))
+                                        } catch (e) {
+                                            console.log(e, "ERROR")
+                                            if (e.code === 'ERR_CANCELED') {
+                                                // handle that the user canceled the sign-in flow
+                                            } else {
+                                                // handle other errors
+                                            }
+                                        }
+                                    }}
+                                />
+                            )
+                        }
                     </View>
 
                     <Text
@@ -295,6 +349,8 @@ const Auth = ({ navigation, route, authSearchKey }) => {
                         </Text>
 
                     </Text>
+
+
                 </ImageBackground>
 
 

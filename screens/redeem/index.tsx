@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 // react-native
 import {
     KeyboardAvoidingView, TextStyle, Text, View, ViewStyle, StatusBar, Platform, Alert, RefreshControl,
-    Pressable, TouchableOpacity, FlatList, Clipboard, ActivityIndicator
+    ScrollView, TouchableOpacity, FlatList, Clipboard, ActivityIndicator
 } from "react-native";
 
 // third-party
@@ -12,7 +12,7 @@ import { Formik, FormikProps } from "formik";
 import * as Yup from "yup";
 import { useFocusEffect } from '@react-navigation/native';
 import TransactionCard from "../../components/TransactionCard";
-import { Feather, MaterialIcons } from '@expo/vector-icons';
+import { Feather, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import SlidingUpPanel from "rn-sliding-up-panel";
 
 // redux
@@ -124,7 +124,7 @@ interface StateProps {
 
 const schema = Yup.object().shape({
     amount: Yup.number().min(100, "common.amountSmall")
-    .required("common.fieldRequired")
+        .required("common.fieldRequired")
 })
 
 const Redeem = ({ navigation, route, authSearchKey }) => {
@@ -245,124 +245,121 @@ const Redeem = ({ navigation, route, authSearchKey }) => {
     return (
         <KeyboardAvoidingView
             enabled={true}
-            // behavior={"position"}
-            // keyboardVerticalOffset={-10000}
+            style={{
+                backgroundColor: 'white',
+                height: '100%'
+            }}
         >
-            <Header
-                navigation={navigation}
-                leftIcon="backIcon"
-                style={{
-                    backgroundColor: colors.white
-                }}
-            />
+
             <View
-                style={ROOT}
+                style={{
+                    marginHorizontal: 15,
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    marginTop: Platform.OS === "ios" ? Layout.window.height / 20 : Layout.window.height / 30,
+                }}
             >
                 <View
-                    showsVerticalScrollIndicator={false}
-                    style={SCROLL_ROOT}
-                    bouces={false}
+
                 >
                     <View
-                        style={{
-                            flexDirection: 'row',
-                            justifyContent: 'space-between',
-                            width: Layout.window.width,
-                            paddingHorizontal: 20
-                        }}
+                        style={HEADER_VIEW}
                     >
                         <View
-                            style={{
-                                // width: '50%'
-                            }}
+                            style={TITLE_VIEW}
                         >
-                            <View
-                                style={HEADER_VIEW}
-                            >
-                                <View
-                                    style={TITLE_VIEW}
-                                >
-                                    <Text
-
-                                        style={DISCOVER}
-                                    >
-                                        {translate(`redeem.header`)}
-                                    </Text>
-                                </View>
-
-                            </View>
-
                             <Text
 
-                                style={DISCOVER_MORE}
+                                style={DISCOVER}
                             >
-                                {translate(`redeem.selectOption`)}
+                                {translate(`redeem.header`)}
                             </Text>
+
                         </View>
 
-                        <TouchableOpacity
-                            style={{
-                                marginTop: 10,
-                            }}
-                            onPress={() => slidingUpPanelRef.current.show()}
-                        >
-                            <Text
-
-                                style={discoverMoreTextStyle}
-                            >
-                                {translate(`redeem.createCoupon`)}
-                            </Text>
-
-                        </TouchableOpacity>
                     </View>
+                </View>
 
-                    <FlatList
-                        showsVerticalScrollIndicator={false}
-                        data={coupons}
-                        renderItem={renderPrice}
-                        refreshControl={
-                            <RefreshControl
-                                refreshing={loading}
-                                progressBackgroundColor={'transparent'}
-                                style={{
-                                    margin: 0,
-                                    padding: 0,
-                                }}
-                                onRefresh={() => {
-                                    dispatch(fetchMyCoupons())
-                                }}
-                            />
-                        }
-                        style={{
-                            marginBottom: Layout.window.height / 5
-                        }}
-                        ListEmptyComponent={
-                            <View
-                                style={{
-                                    marginTop: Layout.window.height / 4,
-                                    alignItems: 'center',
-                                    justifyContent: 'center'
-                                }}
-                            >
-                                <Text
-                                    style={{
-                                        marginRight: 10
-                                    }}
-                                >
-                                    {!loading && `${translate('common.listIsEmpty')}`}
-                                </Text>
-                            </View>
-                        }
-                        contentContainerStyle={{
-                            marginTop: 20
-                        }}
-
+                <TouchableOpacity
+                    onPress={() => navigation.goBack()}
+                    style={{
+                        backgroundColor: colors.transparent
+                    }}
+                >
+                    <MaterialCommunityIcons
+                        name="keyboard-backspace"
+                        color={colors.ravrPurple}
+                        size={26}
                     />
 
-                </View>
+                </TouchableOpacity>
 
 
             </View>
+
+            <ScrollView>
+
+                <View
+                    style={{
+                        marginHorizontal: 20
+                    }}
+                >
+
+                    <Text
+
+                        style={DISCOVER_MORE}
+                    >
+                        {translate(`redeem.selectOption`)}
+                    </Text>
+                </View>
+
+                <FlatList
+                    showsVerticalScrollIndicator={false}
+                    data={coupons}
+                    renderItem={renderPrice}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={loading}
+                            progressBackgroundColor={'transparent'}
+                            style={{
+                                margin: 0,
+                                padding: 0,
+                            }}
+                            onRefresh={() => {
+                                dispatch(fetchMyCoupons())
+                            }}
+                        />
+                    }
+                    style={{
+                        marginBottom: Layout.window.height / 5
+                    }}
+                    ListEmptyComponent={
+                        <View
+                            style={{
+                                marginTop: Layout.window.height / 4,
+                                alignItems: 'center',
+                                justifyContent: 'center'
+                            }}
+                        >
+                            <Text
+                                style={{
+                                    marginRight: 10
+                                }}
+                            >
+                                {!loading && `${translate('common.listIsEmpty')}`}
+                            </Text>
+                        </View>
+                    }
+                    contentContainerStyle={{
+                        marginTop: 20,
+                        justifyContent: "space-between",
+                        paddingBottom: Layout.window.height / 4
+                    }}
+
+                />
+
+
+            </ScrollView>
 
             <SlidingUpPanel
                 ref={slidingUpPanelRef}

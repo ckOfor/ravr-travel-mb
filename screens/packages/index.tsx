@@ -55,8 +55,6 @@ const SCROLL_ROOT: ViewStyle = {
 const HEADER_VIEW: ViewStyle = {
     flexDirection: 'row',
     justifyContent: "space-between",
-    alignItems: 'center',
-    marginTop: Layout.window.height / 15,
     width: Layout.window.height / 2.5,
 };
 
@@ -124,7 +122,7 @@ const discoverTextStyle: TextStyle = {
 const REDEEM_BUTTON: ViewStyle = {
     borderRadius: 100,
     width: Layout.window.width / 1.4,
-    marginTop: Layout.window.height / 20,
+    marginTop: Layout.window.height / 30,
     backgroundColor: colors.ravrPurple,
 }
 
@@ -346,7 +344,7 @@ const Package = ({ navigation, route, authSearchKey }) => {
                     value={refNameInputs.current[i]}
                     placeholderTextColor={colors.faddedGrey}
                     onChangeText={(value) => setNameInputValue(i, value)}
-                    // onSubmitEditing={() => refPriceInputs.current[i].current.focus()}
+                // onSubmitEditing={() => refPriceInputs.current[i].current.focus()}
                 />
                 <TextField
                     name="amount"
@@ -512,7 +510,7 @@ const Package = ({ navigation, route, authSearchKey }) => {
             const tempPackages = packages
             let tempObject = {
                 name: nameTextValue,
-                price: priceTextValue.replace(/\D/g,''),
+                price: priceTextValue.replace(/\D/g, ''),
                 description: descriptionTextValue
             }
             tempPackages.push(tempObject)
@@ -542,24 +540,21 @@ const Package = ({ navigation, route, authSearchKey }) => {
         <KeyboardAvoidingView
             enabled={true}
             behaviour="position"
+            style={{
+                backgroundColor: 'white',
+                height: '100%'
+            }}
         >
             <View
-                style={ROOT}
+                style={{
+                    marginHorizontal: 15,
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    marginTop: Platform.OS === "ios" ? Layout.window.height / 20 : Layout.window.height / 30,
+                }}
             >
-                <ScrollView
-                    showsVerticalScrollIndicator={false}
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={false}
-                            onRefresh={() => {
-                                dispatch(fetchUser())
-                            }}
-                        />
-                    }
-                    style={SCROLL_ROOT}
-                    contentContainerStyle={{
-                        paddingBottom: 200
-                    }}
+                <View
+
                 >
                     <View
                         style={HEADER_VIEW}
@@ -574,24 +569,34 @@ const Package = ({ navigation, route, authSearchKey }) => {
                                 {translate(`createTrip.addPackage`)}
                             </Text>
 
-                            <TouchableOpacity
-                                onPress={() => {
-                                    navigation.goBack()
-                                }}
-                                style={{
-                                    top: 10
-                                }}
-                            >
-                                <MaterialCommunityIcons
-                                    name="keyboard-backspace"
-                                    color={colors.ravrPurple}
-                                    size={26}
-                                />
-                            </TouchableOpacity>
-
                         </View>
 
                     </View>
+                </View>
+
+                <TouchableOpacity
+                    onPress={() => navigation.goBack()}
+                    style={{
+                        backgroundColor: colors.transparent
+                    }}
+                >
+                    <MaterialCommunityIcons
+                        name="keyboard-backspace"
+                        color={colors.ravrPurple}
+                        size={26}
+                    />
+
+                </TouchableOpacity>
+
+
+            </View>
+
+            <ScrollView>
+                <View
+                    style={{
+                        marginHorizontal: 20
+                    }}
+                >
 
                     <Text
 
@@ -611,19 +616,21 @@ const Package = ({ navigation, route, authSearchKey }) => {
                     <Button
                         style={[REDEEM_BUTTON, { alignSelf: 'center' }]}
                         textStyle={REDEEM_BUTTON_TEXT}
-                        disabled={loading || uploading }
+                        disabled={loading || uploading}
                         onPress={submit}
                     >
                         {
                             loading || uploading
                                 ? <ActivityIndicator size="small" color={colors.white} />
-                                : <Text style={REDEEM_BUTTON_TEXT}>{translate(`myTrips.addPictures`)}</Text>
+                                : <Text style={REDEEM_BUTTON_TEXT}>{translate(`createTrip.next`)}</Text>
                         }
                     </Button>
 
+                </View>
 
-                </ScrollView>
-            </View>
+
+            </ScrollView>
+
 
 
         </KeyboardAvoidingView >

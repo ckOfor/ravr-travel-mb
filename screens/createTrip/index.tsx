@@ -54,8 +54,6 @@ const SCROLL_ROOT: ViewStyle = {
 const HEADER_VIEW: ViewStyle = {
     flexDirection: 'row',
     justifyContent: "space-between",
-    alignItems: 'center',
-    marginTop: Layout.window.height / 15,
     width: Layout.window.height / 2.5,
 };
 
@@ -123,7 +121,7 @@ const discoverTextStyle: TextStyle = {
 const REDEEM_BUTTON: ViewStyle = {
     borderRadius: 100,
     width: Layout.window.width / 1.4,
-    marginTop: Layout.window.height / 20,
+    marginTop: Layout.window.height / 30,
     backgroundColor: colors.ravrPurple,
 }
 
@@ -216,21 +214,21 @@ const CreateTrip = ({ navigation, route, authSearchKey }) => {
         <KeyboardAvoidingView
             enabled={true}
             behaviour="position"
+            style={{
+                backgroundColor: 'white',
+                height: '100%'
+            }}
         >
             <View
-                style={ROOT}
+                style={{
+                    marginHorizontal: 15,
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    marginTop: Platform.OS === "ios" ? Layout.window.height / 20 : Layout.window.height / 30,
+                }}
             >
-                <ScrollView
-                    showsVerticalScrollIndicator={false}
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={false}
-                            onRefresh={() => {
-                                dispatch(fetchUser())
-                            }}
-                        />
-                    }
-                    style={SCROLL_ROOT}
+                <View
+
                 >
                     <View
                         style={HEADER_VIEW}
@@ -245,24 +243,34 @@ const CreateTrip = ({ navigation, route, authSearchKey }) => {
                                 {translate(`createTrip.header`)}
                             </Text>
 
-                            <TouchableOpacity
-                                onPress={() => {
-                                    navigation.goBack()
-                                }}
-                                style={{
-                                    top: 10
-                                }}
-                            >
-                                <MaterialIcons
-                                    name="cancel"
-                                    color={colors.ravrPurple}
-                                    size={26}
-                                />
-                            </TouchableOpacity>
-
                         </View>
 
                     </View>
+                </View>
+
+                <TouchableOpacity
+                    onPress={() => navigation.goBack()}
+                    style={{
+                        backgroundColor: colors.transparent
+                    }}
+                >
+                    <MaterialIcons
+                        name="cancel"
+                        color={colors.ravrPurple}
+                        size={26}
+                    />
+
+                </TouchableOpacity>
+
+
+            </View>
+
+            <ScrollView>
+                <View
+                    style={{
+                        marginHorizontal: 20
+                    }}
+                >
 
                     <Text
 
@@ -270,166 +278,162 @@ const CreateTrip = ({ navigation, route, authSearchKey }) => {
                     >
                         {translate(`createTrip.tripDiscription`)}
                     </Text>
+                </View>
 
-                    <Formik
-                        initialValues={{
-                            location: "",
-                            name: ""
-                        }}
-                        validationSchema={schema}
-                        onSubmit={(values) => submit(values)}
-                        enableReinitialize
-                    >
-                        {({
-                            values,
-                            handleChange,
-                            handleBlur,
-                            errors,
-                            isValid,
-                            handleSubmit
-                        }: FormikProps<MyFormValues>) => (
-                            <View>
+                <Formik
+                    initialValues={{
+                        location: "",
+                        name: ""
+                    }}
+                    validationSchema={schema}
+                    onSubmit={(values) => submit(values)}
+                    enableReinitialize
+                >
+                    {({
+                        values,
+                        handleChange,
+                        handleBlur,
+                        errors,
+                        isValid,
+                        handleSubmit
+                    }: FormikProps<MyFormValues>) => (
+                        <View>
 
-                                <View
-                                    style={{
-                                        alignItems: 'center',
-                                        marginTop: Layout.window.height / 25
+                            <View
+                                style={{
+                                    alignItems: 'center',
+                                    marginTop: Layout.window.height / 25
+                                }}
+                            >
+                                <TextField
+                                    name="name"
+                                    keyboardType="default"
+                                    placeholderTx="createTrip.namePlaceholder"
+                                    value={values.name}
+                                    onChangeText={handleChange("name")}
+                                    onBlur={handleBlur("name")}
+                                    autoCapitalize="words"
+                                    returnKeyType="next"
+                                    isInvalid={!isValid}
+                                    fieldError={errors.name}
+                                    forwardedRef={nameInput}
+                                    placeholderTextColor={colors.faddedGrey}
+                                    onSubmitEditing={() => locationInput.current.focus()}
+                                />
+
+                                <TextField
+                                    name="location"
+                                    keyboardType="default"
+                                    placeholderTx="createTrip.locationPlaceholder"
+                                    value={values.location}
+                                    onChangeText={handleChange("location")}
+                                    onBlur={handleBlur("location")}
+                                    autoCapitalize="words"
+                                    returnKeyType="next"
+                                    isInvalid={!isValid}
+                                    fieldError={errors.location}
+                                    forwardedRef={locationInput}
+                                    placeholderTextColor={colors.faddedGrey}
+                                    onSubmitEditing={() => descriptionInput.current.focus()}
+
+                                />
+
+                                <TextField
+                                    name="description"
+                                    keyboardType="default"
+                                    placeholderTx="createTrip.locationDescription"
+                                    value={values.description}
+                                    onChangeText={handleChange("description")}
+                                    onBlur={handleBlur("description")}
+                                    autoCapitalize="words"
+                                    returnKeyType="next"
+                                    isInvalid={!isValid}
+                                    fieldError={errors.description}
+                                    forwardedRef={descriptionInput}
+                                    placeholderTextColor={colors.faddedGrey}
+
+                                />
+
+
+                                <TextField
+                                    name="startDate"
+                                    placeholderTx="createTrip.selectStartDate"
+                                    value={startDate}
+                                    placeholderTextColor={colors.faddedGrey}
+                                    onFocus={() => {
+                                        startDatePicker.current.onPressDate()
                                     }}
+                                />
+
+                                <TextField
+                                    name="startDate"
+                                    placeholderTx="createTrip.selectEndDate"
+                                    value={endDate}
+                                    placeholderTextColor={colors.faddedGrey}
+                                    onFocus={() => {
+                                        endDatePicker.current.onPressDate()
+                                    }}
+                                />
+
+                                <Button
+                                    style={REDEEM_BUTTON}
+                                    textStyle={REDEEM_BUTTON_TEXT}
+                                    disabled={!isValid || loading || uploading || startDate.length < 1 || endDate.length < 1}
+                                    onPress={() => handleSubmit()}
                                 >
-                                    <TextField
-                                        name="name"
-                                        keyboardType="default"
-                                        placeholderTx="createTrip.namePlaceholder"
-                                        value={values.name}
-                                        onChangeText={handleChange("name")}
-                                        onBlur={handleBlur("name")}
-                                        autoCapitalize="words"
-                                        returnKeyType="next"
-                                        isInvalid={!isValid}
-                                        fieldError={errors.name}
-                                        forwardedRef={nameInput}
-                                        placeholderTextColor={colors.faddedGrey}
-                                        onSubmitEditing={() => locationInput.current.focus()}
-                                    />
-
-                                    <TextField
-                                        name="location"
-                                        keyboardType="default"
-                                        placeholderTx="createTrip.locationPlaceholder"
-                                        value={values.location}
-                                        onChangeText={handleChange("location")}
-                                        onBlur={handleBlur("location")}
-                                        autoCapitalize="words"
-                                        returnKeyType="next"
-                                        isInvalid={!isValid}
-                                        fieldError={errors.location}
-                                        forwardedRef={locationInput}
-                                        placeholderTextColor={colors.faddedGrey}
-                                        onSubmitEditing={() => descriptionInput.current.focus()}
-
-                                    />
-
-                                    <TextField
-                                        name="description"
-                                        keyboardType="default"
-                                        placeholderTx="createTrip.locationDescription"
-                                        value={values.description}
-                                        onChangeText={handleChange("description")}
-                                        onBlur={handleBlur("description")}
-                                        autoCapitalize="words"
-                                        returnKeyType="next"
-                                        isInvalid={!isValid}
-                                        fieldError={errors.description}
-                                        forwardedRef={descriptionInput}
-                                        placeholderTextColor={colors.faddedGrey}
-
-                                    />
-
-
-                                    <TextField
-                                        name="startDate"
-                                        placeholderTx="createTrip.selectStartDate"
-                                        value={startDate}
-                                        placeholderTextColor={colors.faddedGrey}
-                                        onFocus={() => {
-                                            startDatePicker.current.onPressDate()
-                                        }}
-                                    />
-
-                                    <TextField
-                                        name="startDate"
-                                        placeholderTx="createTrip.selectEndDate"
-                                        value={endDate}
-                                        placeholderTextColor={colors.faddedGrey}
-                                        onFocus={() => {
-                                            endDatePicker.current.onPressDate()
-                                        }}
-                                    />
-
-                                    <Button
-                                        style={REDEEM_BUTTON}
-                                        textStyle={REDEEM_BUTTON_TEXT}
-                                        disabled={!isValid || loading || uploading || startDate.length < 1 || endDate.length < 1}
-                                        onPress={() => handleSubmit()}
-                                    >
-                                        {
-                                            loading || uploading
-                                                ? <ActivityIndicator size="small" color={colors.white} />
-                                                : <Text style={REDEEM_BUTTON_TEXT}>{translate(`createTrip.addPackage`)}</Text>
-                                        }
-                                    </Button>
-                                </View>
+                                    {
+                                        loading || uploading
+                                            ? <ActivityIndicator size="small" color={colors.white} />
+                                            : <Text style={REDEEM_BUTTON_TEXT}>{translate(`createTrip.addPackage`)}</Text>
+                                    }
+                                </Button>
                             </View>
-                        )}
-                    </Formik>
+                        </View>
+                    )}
+                </Formik>
 
-                    <DatePicker
-                        style={{
-                            height: 1,
-                            width: 1
-                        }}
-                        ref={startDatePicker}
-                        showIcon={false}
-                        hideText={true}
-                        date={startDate}
-                        androidMode="spinner"
-                        mode="date"
-                        confirmBtnText="OK"
-                        cancelBtnText="CANCEL"
-                        format="DD-MM-YYYY"
-                        onDateChange={date => {
-                            setStartDate(date);
-                        }}
-                        // maxDate={moment().subtract(18, "years")}
-                        minDate={new Date(Date.now())}
-                    />
+                <DatePicker
+                    style={{
+                        height: 1,
+                        width: 1
+                    }}
+                    ref={startDatePicker}
+                    showIcon={false}
+                    hideText={true}
+                    date={startDate}
+                    androidMode="spinner"
+                    mode="date"
+                    confirmBtnText="OK"
+                    cancelBtnText="CANCEL"
+                    format="DD-MM-YYYY"
+                    onDateChange={date => {
+                        setStartDate(date);
+                    }}
+                    // maxDate={moment().subtract(18, "years")}
+                    minDate={new Date(Date.now())}
+                />
 
-                    <DatePicker
-                        style={{
-                            height: 1,
-                            width: 1
-                        }}
-                        ref={endDatePicker}
-                        showIcon={false}
-                        hideText={true}
-                        date={endDate}
-                        androidMode="spinner"
-                        mode="date"
-                        confirmBtnText="OK"
-                        cancelBtnText="CANCEL"
-                        format="DD-MM-YYYY"
-                        onDateChange={date => {
-                            setEndDate(date);
-                        }}
-                        minDate={new Date(Date.now())}
+                <DatePicker
+                    style={{
+                        height: 1,
+                        width: 1
+                    }}
+                    ref={endDatePicker}
+                    showIcon={false}
+                    hideText={true}
+                    date={endDate}
+                    androidMode="spinner"
+                    mode="date"
+                    confirmBtnText="OK"
+                    cancelBtnText="CANCEL"
+                    format="DD-MM-YYYY"
+                    onDateChange={date => {
+                        setEndDate(date);
+                    }}
+                    minDate={new Date(Date.now())}
 
-                    />
-
-
-
-
-                </ScrollView>
-            </View>
+                />
+            </ScrollView>
 
 
         </KeyboardAvoidingView >

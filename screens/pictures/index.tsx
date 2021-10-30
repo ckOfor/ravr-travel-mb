@@ -55,8 +55,6 @@ const SCROLL_ROOT: ViewStyle = {
 const HEADER_VIEW: ViewStyle = {
     flexDirection: 'row',
     justifyContent: "space-between",
-    alignItems: 'center',
-    marginTop: Layout.window.height / 15,
     width: Layout.window.height / 2.5,
 };
 
@@ -308,24 +306,22 @@ const Picture = ({ navigation, route, authSearchKey }) => {
         <KeyboardAvoidingView
             enabled={true}
             behaviour="position"
+            style={{
+                backgroundColor: 'white',
+                height: '100%'
+            }}
         >
+
             <View
-                style={ROOT}
+                style={{
+                    marginHorizontal: 15,
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    marginTop: Platform.OS === "ios" ? Layout.window.height / 20 : Layout.window.height / 30,
+                }}
             >
-                <ScrollView
-                    showsVerticalScrollIndicator={false}
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={false}
-                            onRefresh={() => {
-                                dispatch(fetchUser())
-                            }}
-                        />
-                    }
-                    style={SCROLL_ROOT}
-                    contentContainerStyle={{
-                        paddingBottom: 200
-                    }}
+                <View
+
                 >
                     <View
                         style={HEADER_VIEW}
@@ -337,33 +333,44 @@ const Picture = ({ navigation, route, authSearchKey }) => {
 
                                 style={DISCOVER}
                             >
-                                {translate(`createTrip.addPackage`)}
+                                {translate(`createTrip.addImages`)}
                             </Text>
-
-                            <TouchableOpacity
-                                onPress={() => {
-                                    navigation.goBack()
-                                }}
-                                style={{
-                                    top: 10
-                                }}
-                            >
-                                <MaterialCommunityIcons
-                                    name="keyboard-backspace"
-                                    color={colors.ravrPurple}
-                                    size={26}
-                                />
-                            </TouchableOpacity>
 
                         </View>
 
                     </View>
+                </View>
+
+                <TouchableOpacity
+                    onPress={() => navigation.goBack()}
+                    style={{
+                        backgroundColor: colors.transparent
+                    }}
+                >
+                    <MaterialCommunityIcons
+                        name="keyboard-backspace"
+                        color={colors.ravrPurple}
+                        size={26}
+                    />
+
+                </TouchableOpacity>
+
+
+            </View>
+
+
+            <ScrollView>
+                <View
+                    style={{
+                        marginHorizontal: 20
+                    }}
+                >
 
                     <Text
 
                         style={DISCOVER_MORE}
                     >
-                        {translate(`createTrip.body`)}
+                        {translate(`createTrip.addBodyImage`)}
                     </Text>
 
                     <View
@@ -433,13 +440,15 @@ const Picture = ({ navigation, route, authSearchKey }) => {
                         {
                             loading || uploading
                                 ? <ActivityIndicator size="small" color={colors.white} />
-                                : <Text style={REDEEM_BUTTON_TEXT}>{translate(`createTrip.uploadPoster`)}</Text>
+                                : <Text style={REDEEM_BUTTON_TEXT}>{translate(`createTrip.uploadAndSave`)}</Text>
                         }
                     </Button>
+                </View>
 
 
-                </ScrollView>
-            </View>
+
+            </ScrollView>
+
 
 
         </KeyboardAvoidingView >

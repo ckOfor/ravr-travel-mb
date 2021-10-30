@@ -47,7 +47,6 @@ const SCROLL_ROOT: ViewStyle = {
 const HEADER_VIEW: ViewStyle = {
     flexDirection: 'row',
     justifyContent: "space-between",
-    marginTop: Layout.window.height / 15,
     width: Layout.window.height / 2.5,
 };
 
@@ -338,101 +337,88 @@ const People = ({ navigation, route, authSearchKey }) => {
     return (
         <KeyboardAvoidingView
             enabled={true}
-        // behavior={"padding"}
-        // keyboardVerticalOffset={100}
+            style={{
+                backgroundColor: 'white'
+            }}
         >
             <View
-                style={ROOT}
+                style={{
+                    marginHorizontal: 15,
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    marginTop: Platform.OS === "ios" ? Layout.window.height / 20 : Layout.window.height / 30,
+                }}
             >
-                <ScrollView
-                    showsVerticalScrollIndicator={false}
-                    bounces={false}
-                    style={SCROLL_ROOT}
-                >
+                <View>
                     <View
-                        style={{
-                            marginHorizontal: 15
-                        }}
+                        style={HEADER_VIEW}
                     >
                         <View
-                            style={HEADER_VIEW}
+                            style={TITLE_VIEW}
                         >
-                            <View
-                                style={TITLE_VIEW}
+                            <Text
+
+                                style={DISCOVER}
                             >
-                                <Text
-
-                                    style={DISCOVER}
-                                >
-                                    {translate(`viewTrips.header`)}
-                                </Text>
-                            </View>
-
-                            <TouchableOpacity
-                                style={TITLE_VIEW}
-                                onPress={() => navigation.goBack()}
-                            >
-                                <MaterialCommunityIcons
-                                    name="keyboard-backspace"
-                                    color={colors.ravrPurple}
-                                    size={26}
-                                    style={{
-                                        top: 6,
-                                    }}
-                                />
-
-                                {/* <Text
-
-                                    style={DISCOVER}
-                                >
-                                    {translate(`myTrips.postTour`)}
-                                </Text> */}
-
-                            </TouchableOpacity>
-
+                                {translate(`viewTrips.header`)}
+                            </Text>
                         </View>
-
-                        <Text
-
-                            style={DISCOVER_MORE}
-                        >
-                            {location}
-                        </Text>
-
-
                     </View>
 
-                    {
-                        route.params.hidePlans && (
-                            <FlatList
-                                showsVerticalScrollIndicator={false}
-                                showsHorizontalScrollIndicator={false}
-                                data={paymentList}
-                                renderItem={returnUsers}
-                                style={{
-                                    paddingLeft: 15,
-                                    height: Layout.window.height / 3,
-                                }}
-                                contentContainerStyle={{
-                                    marginTop: 20,
-                                    justifyContent: "space-between",
-                                    paddingBottom: Layout.window.height / 6,
-                                }}
+                    <Text
 
-                            />
-                        )
-                    }
+                        style={DISCOVER_MORE}
+                    >
+                        {location}
+                    </Text>
+                </View>
 
 
+                <TouchableOpacity
+                    onPress={() => navigation.goBack()}
+                    style={{
+                        backgroundColor: colors.transparent
+                    }}
+                >
+                    <MaterialCommunityIcons
+                        name="keyboard-backspace"
+                        color={colors.ravrPurple}
+                        size={26}
+                        style={{
+                            top: 6,
+                        }}
+                    />
+                </TouchableOpacity>
 
 
-                </ScrollView>
+
             </View>
+
+            {
+                route.params.hidePlans && (
+                    <FlatList
+                        showsVerticalScrollIndicator={false}
+                        showsHorizontalScrollIndicator={false}
+                        data={paymentList}
+                        renderItem={returnUsers}
+                        style={{
+                            paddingLeft: 15,
+                            height: Layout.window.height,
+                        }}
+                        contentContainerStyle={{
+                            marginTop: 20,
+                            justifyContent: "space-between",
+                            paddingBottom: Layout.window.height / 4,
+                        }}
+
+                    />
+                )
+            }
 
             <SlidingUpPanel
                 ref={slidingUpPanelRef}
                 draggableRange={{
-                    top: Layout.window.height / 1.5,
+                    top: Layout.window.height / 1.3,
                     bottom: 0,
                 }}
                 friction={0.5}

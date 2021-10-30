@@ -16,7 +16,7 @@ import SlidingUpPanel from "rn-sliding-up-panel";
 import moment from "moment";
 
 // redux
-import { notify, payForTrip } from "../../redux/auth";
+import { notify, payForTripWithWallet } from "../../redux/auth";
 import useReduxStore from "../../utils/hooks/useRedux";
 
 // components
@@ -25,7 +25,7 @@ import { TextField } from "../../components/text-field";
 
 // styles
 import { Layout } from "../../constants";
-import { colors, fonts } from "../../theme";
+import { colors, fonts, images } from "../../theme";
 
 // util
 import { translate } from "../../i18n";
@@ -47,7 +47,6 @@ const SCROLL_ROOT: ViewStyle = {
 const HEADER_VIEW: ViewStyle = {
     flexDirection: 'row',
     justifyContent: "space-between",
-    marginTop: Layout.window.height / 15,
     width: Layout.window.height / 2.5,
 };
 
@@ -68,7 +67,7 @@ const DISCOVER: TextStyle = {
 const DISCOVER_MORE: TextStyle = {
     color: colors.blackTwo,
     fontFamily: fonts.RubikMedium,
-    width: Layout.window.width / 1.2,
+    // width: Layout.window.width / 1.2,
     marginTop: 10,
     fontSize: 15
 }
@@ -83,6 +82,25 @@ const discoverMoreTextStyle: TextStyle = {
     color: colors.blue1,
     fontFamily: fonts.RubikRegular,
     lineHeight: 20
+}
+
+const selectPaymentMethod: TextStyle = {
+    color: colors.blue1,
+    fontFamily: fonts.RubikRegular,
+    lineHeight: 20,
+    textAlign: 'center',
+    marginBottom: 20,
+    marginTop: 10,
+    right: 10
+
+}
+
+const paymentCompany: TextStyle = {
+    color: colors.blue1,
+    fontFamily: fonts.RubikMedium,
+    lineHeight: 20,
+    textAlign: 'center',
+    marginTop: 5
 }
 
 const discoverTextStyle: TextStyle = {
@@ -136,6 +154,7 @@ const ViewTrips = ({ navigation, route, authSearchKey }) => {
     const [tripStartDate, setTripStartDate] = useState('')
     const [tripEndDate, setTripEndDate] = useState('')
     const [dateDiff, setDateDiff] = useState('')
+    const [paymentMethod, setPaymentMethod] = useState('')
     const [selectedPackage, setSelectedPackage] = useState([])
     let slidingUpPanelRef = useRef<SlidingUpPanel>(null);
     let numberOfPeopleInput = useRef(null)
@@ -214,7 +233,9 @@ const ViewTrips = ({ navigation, route, authSearchKey }) => {
         if (numberOfPeople % 1 != 0) {
             dispatch(notify(`${translate('trips.invalidNumber')}`, 'Error'))
         } else {
-            dispatch(payForTrip(payload))
+            // dispatch(payForTrip(payload))
+
+            if (paymentMethod === "wallet") return dispatch(payForTripWithWallet(payload))
         }
     }
 
@@ -483,66 +504,59 @@ const ViewTrips = ({ navigation, route, authSearchKey }) => {
     return (
         <KeyboardAvoidingView
             enabled={true}
-        // behavior={"padding"}
-        // keyboardVerticalOffset={100}
         >
             <View
                 style={ROOT}
             >
-                <ScrollView
+                <View
                     showsVerticalScrollIndicator={false}
                     bounces={false}
                     style={SCROLL_ROOT}
                 >
                     <View
                         style={{
-                            marginHorizontal: 15
+                            marginHorizontal: 15,
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            marginTop: Platform.OS === "ios" ? Layout.window.height / 15 : Layout.window.height / 10,
                         }}
                     >
-                        <View
-                            style={HEADER_VIEW}
-                        >
+                        <View>
                             <View
-                                style={TITLE_VIEW}
+                                style={HEADER_VIEW}
                             >
-                                <Text
-
-                                    style={DISCOVER}
+                                <View
+                                    style={TITLE_VIEW}
                                 >
-                                    {translate(`viewTrips.header`)}
-                                </Text>
+                                    <Text
+
+                                        style={DISCOVER}
+                                    >
+                                        {translate(`viewTrips.header`)}
+                                    </Text>
+                                </View>
                             </View>
 
-                            <TouchableOpacity
-                                style={TITLE_VIEW}
-                                onPress={() => navigation.goBack()}
+                            <Text
+
+                                style={DISCOVER_MORE}
                             >
-                                <MaterialCommunityIcons
-                                    name="keyboard-backspace"
-                                    color={colors.ravrPurple}
-                                    size={26}
-                                    style={{
-                                        top: 6,
-                                    }}
-                                />
-
-                                {/* <Text
-
-                                    style={DISCOVER}
-                                >
-                                    {translate(`myTrips.postTour`)}
-                                </Text> */}
-
-                            </TouchableOpacity>
-
+                                {location}
+                            </Text>
                         </View>
 
-                        <Text
 
-                            style={DISCOVER_MORE}
+                        <TouchableOpacity
+                            onPress={() => navigation.goBack()}
                         >
-                            {location}
-                        </Text>
+                            <MaterialCommunityIcons
+                                name="keyboard-backspace"
+                                color={colors.ravrPurple}
+                                size={26}
+                            />
+
+                        </TouchableOpacity>
+
 
 
                     </View>
@@ -566,9 +580,11 @@ const ViewTrips = ({ navigation, route, authSearchKey }) => {
 
                     <View
                         style={{
-                            flexDirection: 'row'
+                            flexDirection: 'row',
+                            justifyContent: 'space-between'
                         }}
                     >
+
                         <View>
                             <Text
 
@@ -588,7 +604,7 @@ const ViewTrips = ({ navigation, route, authSearchKey }) => {
                         <View
                             style={{
                                 flexDirection: 'row',
-                                right: 35
+                                right: 15
                             }}
                         >
                             {
@@ -619,8 +635,6 @@ const ViewTrips = ({ navigation, route, authSearchKey }) => {
                                 style={TITLE_VIEW}
                                 onPress={() => onShare()}
                             >
-
-
                                 <Entypo
                                     name="share"
                                     color={colors.ravrPurple}
@@ -629,9 +643,9 @@ const ViewTrips = ({ navigation, route, authSearchKey }) => {
                                         top: 10,
                                     }}
                                 />
-
                             </TouchableOpacity>
                         </View>
+
                     </View>
 
                     <Text
@@ -647,7 +661,6 @@ const ViewTrips = ({ navigation, route, authSearchKey }) => {
                         !route.params.hidePlans && (
                             <FlatList
                                 showsVerticalScrollIndicator={false}
-                                showsHorizontalScrollIndicator={false}
                                 data={packages}
                                 renderItem={returnPrices}
                                 style={{
@@ -731,7 +744,7 @@ const ViewTrips = ({ navigation, route, authSearchKey }) => {
 
 
 
-                </ScrollView>
+                </View>
             </View>
 
             <SlidingUpPanel
@@ -825,7 +838,127 @@ const ViewTrips = ({ navigation, route, authSearchKey }) => {
                                     // maxLength={6}
                                     />
 
-                                    <Button
+                                    <Text
+
+                                        style={selectPaymentMethod}
+                                    >
+                                        Pay with
+                                    </Text>
+
+
+                                    <View
+                                        style={{
+                                            flexDirection: 'row',
+                                            justifyContent: 'space-around',
+                                            width: '100%'
+                                        }}
+                                    >
+                                        <TouchableOpacity
+                                            disabled={!isValid || loading}
+                                            style={{
+                                                alignItems: 'center'
+                                            }}
+                                            onPress={() => {
+                                                setPaymentMethod('paystack')
+                                                handleSubmit()
+                                            }}
+                                        >
+                                            <Image
+                                                source={images.paystack}
+                                                style={{
+                                                    height: 50,
+                                                    width: 50,
+                                                    borderRadius: 25,
+                                                    alignItem: 'center'
+                                                }}
+                                                resizeMode={"contain"}
+                                                resizeMethod="auto"
+
+                                            />
+
+                                            <Text
+                                                style={paymentCompany}
+                                            >
+                                                Paystack
+                                            </Text>
+                                        </TouchableOpacity>
+
+                                        <TouchableOpacity
+                                            disabled={!isValid || loading}
+                                            onPress={() => {
+                                                setPaymentMethod('wallet')
+                                                handleSubmit()
+                                            }}
+                                            style={{
+                                                alignItems: 'center'
+                                            }}
+                                        >
+                                            <Image
+                                                source={images.walletAfrica}
+                                                style={{
+                                                    height: 50,
+                                                    width: 50,
+                                                    borderRadius: 25,
+                                                }}
+                                                resizeMode={"contain"}
+                                                resizeMethod="auto"
+
+                                            />
+
+                                            <Text
+                                                style={paymentCompany}
+                                            >
+                                                Wallet
+                                            </Text>
+                                        </TouchableOpacity>
+
+                                        <TouchableOpacity
+                                            disabled={!isValid || loading}
+                                            onPress={() => {
+                                                setPaymentMethod('flutterwave')
+                                                handleSubmit()
+                                            }}
+                                            style={{
+                                                alignItems: 'center'
+                                            }}
+                                        >
+                                            <Image
+                                                source={images.flutterwave}
+                                                style={{
+                                                    height: 50,
+                                                    width: 50,
+                                                    borderRadius: 25
+                                                }}
+                                                resizeMode={"contain"}
+                                                resizeMethod="auto"
+
+                                            />
+
+                                            <Text
+
+                                                style={paymentCompany}
+                                            >
+                                                Flutterwave
+                                            </Text>
+                                        </TouchableOpacity>
+                                    </View>
+
+                                    {
+                                        loading && (
+                                            <ActivityIndicator
+                                                size="small"
+                                                color={colors.ravrPurple}
+                                                style={{
+                                                    marginTop: Layout.window.height / 30
+                                                }}
+                                            />
+                                        )
+                                    }
+
+
+
+
+                                    {/* <Button
                                         style={REDEEM_BUTTON}
                                         textStyle={REDEEM_BUTTON_TEXT}
                                         disabled={!isValid || loading}
@@ -834,11 +967,42 @@ const ViewTrips = ({ navigation, route, authSearchKey }) => {
                                         {
                                             loading
                                                 ? <ActivityIndicator size="small" color={colors.white} />
-                                                : <Text style={REDEEM_BUTTON_TEXT}>{translate(`viewTrips.pay`, {
+                                                : <Text style={REDEEM_BUTTON_TEXT}>{translate(`viewTrips.payWithWallet`, {
                                                     amount: formatAmount(totalAmount * returnPrice(selectedPackage.price))
                                                 })}</Text>
                                         }
                                     </Button>
+
+                                    <Button
+                                        style={[REDEEM_BUTTON, { backgroundColor: '#606060', marginTop: 30 }]}
+                                        textStyle={REDEEM_BUTTON_TEXT}
+                                        disabled={!isValid || loading}
+                                        onPress={() => handleSubmit()}
+                                    >
+                                        {
+                                            loading
+                                                ? <ActivityIndicator size="small" color={colors.white} />
+                                                : <Text style={REDEEM_BUTTON_TEXT}>{translate(`viewTrips.payWithPaystack`, {
+                                                    amount: formatAmount(totalAmount * returnPrice(selectedPackage.price))
+                                                })}</Text>
+                                        }
+                                    </Button>
+
+                                    <Button
+                                        style={[REDEEM_BUTTON, { backgroundColor: '#ff654c', marginTop: 30 }]}
+                                        textStyle={REDEEM_BUTTON_TEXT}
+                                        disabled={!isValid || loading}
+                                        onPress={() => handleSubmit()}
+                                    >
+                                        {
+                                            loading
+                                                ? <ActivityIndicator size="small" color={colors.white} />
+                                                : <Text style={REDEEM_BUTTON_TEXT}>{translate(`viewTrips.payWithPaystack`, {
+                                                    amount: formatAmount(totalAmount * returnPrice(selectedPackage.price))
+                                                })}</Text>
+                                        }
+                                    </Button> */}
+
                                 </View>
                             </View>
                         )}

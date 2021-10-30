@@ -50,14 +50,13 @@ const ROOT: ViewStyle = {
 };
 
 const SCROLL_ROOT: ViewStyle = {
-    marginBottom: Platform.OS === "ios" ? 0 : Layout.window.height / 15
+    // marginBottom: Platform.OS === "ios" ? 0 : Layout.window.height / 15,
+    marginHorizontal: 15,
 };
 
 const HEADER_VIEW: ViewStyle = {
     flexDirection: 'row',
     justifyContent: "space-between",
-    alignItems: 'center',
-    marginTop: Layout.window.height / 15,
     width: Layout.window.height / 2.5,
 };
 
@@ -112,7 +111,7 @@ const DISCOVER_MORE: TextStyle = {
     color: colors.blue1,
     fontFamily: fonts.RubikRegular,
     lineHeight: 20,
-    // width: Layout.window.width / 1.2,
+    width: Layout.window.width / 2,
     marginTop: 10
 }
 
@@ -246,7 +245,7 @@ const MyTrips = ({ navigation, route, authSearchKey }) => {
 
     useEffect(() => {
         if (companies.length > 0) {
-            slidingUpPanelRef.current.hide()
+            // slidingUpPanelRef.current.hide()
         }
     }, [loading])
 
@@ -374,28 +373,6 @@ const MyTrips = ({ navigation, route, authSearchKey }) => {
         // }
     };
 
-    const donwloadCSV = async (item: any) => {
-        // const { paymentList, name } = item
-        // var ws = XLSX.utils.json_to_sheet(paymentList);
-        // var wb = XLSX.utils.book_new();
-        // XLSX.utils.book_append_sheet(wb, ws, "Cities");
-        // const wbout = XLSX.write(wb, {
-        //     type: 'base64',
-        //     bookType: "xlsx"
-        // });
-        // const uri = FileSystem.cacheDirectory + 'cities.xlsx';
-        // console.log(`Writing to ${JSON.stringify(uri)} with text: ${wbout}`);
-        // await FileSystem.writeAsStringAsync(uri, wbout, {
-        //     encoding: FileSystem.EncodingType.Base64
-        // });
-
-        // await Sharing.shareAsync(uri, {
-        //     mimeType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        //     dialogTitle: 'MyWater data',
-        //     UTI: 'com.microsoft.excel.xlsx'
-        // });
-    }
-
     const renderTrip = ({ item }: any, index: any) => {
 
         const { poster, location, name, startDate } = item
@@ -509,21 +486,23 @@ const MyTrips = ({ navigation, route, authSearchKey }) => {
     return (
         <KeyboardAvoidingView
             enabled={true}
+            behavior={"padding"}
+            keyboardVerticalOffset={100}
+            style={{
+                backgroundColor: 'white'
+            }}
         >
             <View
-                style={ROOT}
+                style={{
+                    marginHorizontal: 15,
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    marginTop: Platform.OS === "ios" ? Layout.window.height / 20 : Layout.window.height / 30,
+                }}
             >
-                <ScrollView
-                    showsVerticalScrollIndicator={false}
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={false}
-                            onRefresh={() => {
-                                dispatch(fetchUser())
-                            }}
-                        />
-                    }
-                    style={SCROLL_ROOT}
+                <View
+                    style={{
+                    }}
                 >
                     <View
                         style={HEADER_VIEW}
@@ -537,153 +516,139 @@ const MyTrips = ({ navigation, route, authSearchKey }) => {
                             >
                                 {translate(`myTrips.header`)}
                             </Text>
-
                         </View>
-
-                        {
-                            companies.length < 1 && (
-                                <TouchableOpacity
-                                    style={TITLE_VIEW}
-                                    onPress={() => slidingUpPanelRef.current.show()}
-                                >
-                                    <MaterialIcons
-                                        name="add-circle"
-                                        color={colors.ravrPurple}
-                                        size={26}
-                                        style={{
-                                            top: 6,
-                                            right: 10
-                                        }}
-                                    />
-
-                                    <Text
-
-                                        style={DISCOVER}
-                                    >
-                                        {translate(`myTrips.postTour`)}
-                                    </Text>
-
-                                </TouchableOpacity>
-                            )
-                        }
-
-                        {
-                            isRegisteredAndVerified && (
-                                <TouchableOpacity
-                                    style={TITLE_VIEW}
-                                    onPress={() => navigation.navigate('CreateTrip')}
-                                >
-                                    <Ionicons
-                                        name="ios-add-circle"
-                                        color={colors.ravrPurple}
-                                        size={26}
-                                        style={{
-                                            top: 6,
-                                            right: 10
-                                        }}
-                                    />
-
-                                    <Text
-
-                                        style={DISCOVER}
-                                    >
-                                        {translate(`myTrips.postTour`)}
-                                    </Text>
-
-                                </TouchableOpacity>
-                            )
-                        }
-
                     </View>
+                </View>
 
-                    {
-                        isRegisteredAndVerified && (
-                            <TouchableOpacity
-                                style={{
-                                    flexDirection: 'row',
-                                    width: '100%',
-                                }}
 
-                                onPress={() => {
-                                    if (sortedBy === "personal") {
-                                        setSortedBy("business")
-                                        dispatch(fetchUser())
-                                        setAllTrips(trips)
-                                    } else {
-                                        setSortedBy("personal")
-                                        dispatch(fetchUser())
-                                        setAllTrips(transactions)
-                                    }
-                                }}
-                            >
-                                {/* <Text
+                {
+                    companies.length < 1 && <TouchableOpacity
+                        onPress={() => slidingUpPanelRef.current.show()}
+                        style={{
+                            backgroundColor: colors.transparent
+                        }}
+                    >
+                        <Ionicons
+                            name="ios-add-circle"
+                            color={colors.ravrPurple}
+                            size={26}
+                        />
+
+                    </TouchableOpacity>
+                }
+
+                {
+                    isRegisteredAndVerified && <TouchableOpacity
+                        onPress={() => navigation.navigate('CreateTrip')}
+                        style={{
+                            backgroundColor: colors.transparent
+                        }}
+                    >
+                        <Ionicons
+                            name="ios-add-circle"
+                            color={colors.ravrPurple}
+                            size={26}
+                        />
+
+                    </TouchableOpacity>
+                }
+            </View>
+
+            <View
+                style={{
+                    marginHorizontal: 20
+                }}
+            >
+                {
+                    isRegisteredAndVerified && (
+                        <TouchableOpacity
+                            style={{
+                                flexDirection: 'row',
+                                width: '100%',
+                                marginBottom: 10
+
+                            }}
+
+                            onPress={() => {
+                                if (sortedBy === "personal") {
+                                    setSortedBy("business")
+                                    dispatch(fetchUser())
+                                    setAllTrips(trips)
+                                } else {
+                                    setSortedBy("personal")
+                                    dispatch(fetchUser())
+                                    setAllTrips(transactions)
+                                }
+                            }}
+                        >
+                            {/* <Text
 
                                     style={DISCOVER_MORE}
                                 >
                                     {translate(`myTrips.headerBody`)}
                                 </Text> */}
 
-                                <View
+                            <View
+                                style={{
+                                    flexDirection: 'row',
+                                    left: 10
+                                }}
+                            >
+
+                                <FontAwesome5
+                                    name="sort"
+                                    color={colors.ravrPurple}
+                                    size={26}
                                     style={{
-                                        flexDirection: 'row',
-                                        left: 10
+                                        top: 6,
+                                        right: 10
+                                    }}
+                                />
+                                <Text
+
+                                    style={[DISCOVER_MORE, {
+
+                                    }]}
+                                >
+                                    {sortedBy === "personal" ? translate(`myTrips.sortBusiness`) : translate(`myTrips.sortPersonal`)}
+                                </Text>
+                            </View>
+                        </TouchableOpacity>
+                    )
+                }
+
+                <View style={{ height: Layout.window.height }}>
+                    <FlatList
+                        showsVerticalScrollIndicator={false}
+                        data={allTrips}
+                        renderItem={renderTrip}
+                        style={{
+                            // marginBottom: Layout.window.height / 20
+                        }}
+                        ListEmptyComponent={
+                            <View
+                                style={{
+                                    marginTop: Layout.window.height / 5,
+                                    alignItems: 'center',
+                                    justifyContent: 'center'
+                                }}
+                            >
+                                <Text
+                                    style={{
+                                        marginRight: 10
                                     }}
                                 >
-
-                                    <FontAwesome5
-                                        name="sort"
-                                        color={colors.ravrPurple}
-                                        size={26}
-                                        style={{
-                                            top: 6,
-                                            right: 10
-                                        }}
-                                    />
-                                    <Text
-
-                                        style={[DISCOVER_MORE, {
-
-                                        }]}
-                                    >
-                                        {sortedBy === "personal" ? translate(`myTrips.sortBusiness`) : translate(`myTrips.sortPersonal`)}
-                                    </Text>
-                                </View>
-                            </TouchableOpacity>
-                        )
-                    }
-                    <View style={{ height: Layout.window.height / 1.3 }}>
-                        <FlatList
-                            showsVerticalScrollIndicator={false}
-                            data={allTrips}
-                            renderItem={renderTrip}
-                            style={{
-                                marginBottom: Layout.window.height / 20
-                            }}
-                            ListEmptyComponent={
-                                <View
-                                    style={{
-                                        marginTop: Layout.window.height / 5,
-                                        alignItems: 'center',
-                                        justifyContent: 'center'
-                                    }}
-                                >
-                                    <Text
-                                        style={{
-                                            marginRight: 10
-                                        }}
-                                    >
-                                        {!loading && `${translate('common.listIsEmpty')}`}
-                                    </Text>
-                                </View>
-                            }
-                            contentContainerStyle={{
-                                marginTop: 30,
-                                justifyContent: "space-between"
-                            }}
-                        />
-                    </View>
-
-                </ScrollView>
+                                    {!loading && `${translate('common.listIsEmpty')}`}
+                                </Text>
+                            </View>
+                        }
+                        contentContainerStyle={{
+                            marginTop: 30,
+                            justifyContent: "space-between",
+                            paddingBottom: Layout.window.height / 4
+                        }}
+                    />
+                </View>
             </View>
 
             <SlidingUpPanel

@@ -18,6 +18,9 @@ export const images = {
 
     // trips
     shareIcon: require("../assets/images/shareIcon.png"),
+    paystack: require("../assets/images/paystack.png"),
+    walletAfrica: require("../assets/images/walletAfrica.png"),
+    flutterwave: require("../assets/images/flutterwave.png"),
 
 }
 

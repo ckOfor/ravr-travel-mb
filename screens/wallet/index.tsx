@@ -37,7 +37,8 @@ const ROOT: ViewStyle = {
     alignItems: 'center',
     justifyContent: 'center',
     width: Layout.window.width,
-    backgroundColor: colors.white
+    backgroundColor: colors.white,
+    // padding: 20
 };
 
 const SCROLL_ROOT: ViewStyle = {
@@ -47,7 +48,7 @@ const SCROLL_ROOT: ViewStyle = {
 const HEADER_VIEW: ViewStyle = {
     flexDirection: 'row',
     justifyContent: "space-between",
-    marginTop: Layout.window.height / 15,
+    marginTop: Platform.OS === "ios" ? Layout.window.height / 20 : 20,
     width: Layout.window.height / 2.5,
 };
 
@@ -143,7 +144,6 @@ const Wallet = ({ navigation, route, authSearchKey }) => {
     const transactions = selectStore("transactions");
     const { wallets, hasPassword, fullName } = user
     const { accountName, bank, accountNumber, lockedFunds } = wallets[0]
-    const { walletBalance, walletCurrency } = balance
 
     console.log(transactions, "transactions")
 
@@ -471,7 +471,8 @@ const Wallet = ({ navigation, route, authSearchKey }) => {
                     borderRadius: 4,
                     flexDirection: 'row',
                     alignItems: 'center',
-                    justifyContent: 'space-between'
+                    justifyContent: 'space-between',
+                    width: Layout.window.width / 1.1
                 }}
             >
 
@@ -534,7 +535,7 @@ const Wallet = ({ navigation, route, authSearchKey }) => {
                             textAlign: 'right'
                         }}
                     >
-                        {`${moment(dateTransacted).format('Do dddd MMM hh:mm a')}`}
+                        {`${moment(dateTransacted).format('Do ddd MM hh:mm a')}`}
                     </Text>
 
                 </View>
@@ -603,7 +604,7 @@ const Wallet = ({ navigation, route, authSearchKey }) => {
                     >
                         <ImageBackground
                             style={{
-                                width: 345,
+                                width: Layout.window.width / 1.1,
                                 height: showFullDetails ? 221 : 100,
                                 marginTop: 20,
                                 padding: 20,
@@ -641,7 +642,7 @@ const Wallet = ({ navigation, route, authSearchKey }) => {
                                             fontSize: 24
                                         }}
                                     >
-                                        {walletCurrency} {`${formatAmount(walletBalance)}`}
+                                        {balance?.walletCurrency} {`${formatAmount(balance?.walletBalance)}`}
                                     </Text>
                                 </View>
 
@@ -734,7 +735,7 @@ const Wallet = ({ navigation, route, authSearchKey }) => {
                                                     fontSize: 15
                                                 }}
                                             >
-                                                {walletCurrency} {`${formatAmount(lockedFunds)}`}
+                                                {balance?.walletCurrency} {`${formatAmount(lockedFunds)}`}
                                             </Text>
                                         </View>
 
@@ -854,8 +855,8 @@ const Wallet = ({ navigation, route, authSearchKey }) => {
                                     refreshing={loading}
                                     progressBackgroundColor={'transparent'}
                                     style={{
-                                        margin: 0,
-                                        padding: 0,
+                                        // margin: 0,
+                                        // padding: 0,
                                     }}
                                     onRefresh={() => {
                                         setLimit(10)
@@ -885,7 +886,9 @@ const Wallet = ({ navigation, route, authSearchKey }) => {
                                 </View>
                             }
                             contentContainerStyle={{
-                                paddingBottom: Layout.window.height / 1.05
+                                paddingBottom: Layout.window.height / 1.05,
+                                // marginHorizontal: 40
+// 
                             }}
                             
                         />

@@ -33,9 +33,8 @@
 		"recommendedTours": "Discover",
 		"recommendedMore": "With us, you get the best local and international tourism deals and packages",
 		"search": "Search by name, location or amount.",
-		"trendingCities": "Trending Cities",
+		"trendingCities": "Trending places",
 		"localCities": "Local"
-
 	},
 	"auth": {
 		"email": "Continue with Email",
@@ -159,7 +158,11 @@
 		"packagePrice": "Package price e.g 100000",
 		"addPackage": "Add Package",
 		"tripDiscription": "Trip details",
-		"description": "Package description e.g First class ticket, dinner"
+		"description": "Package description e.g First class ticket, dinner",
+		"next": "Next",
+		"uploadAndSave": "Post",
+		"addImages": "Add Images",
+		"addBodyImage": "Add poster and location images"
 	},
 	"pictures": {
 		"poster": "Upload trip poster",
@@ -169,7 +172,9 @@
 		"header": "Trip Details",
 		"body": "Trip Details",
 		"enterNumberOfPeople": "Enter number of people",
-		"pay": "Pay  ₦ {{amount}}",
+		"payWithWallet": "Pay ₦ {{amount}} with wallet",
+		"payWithPaystack": "Pay ₦ {{amount}} with paystack",
+		"payWithFlutter": "Pay ₦ {{amount}} with flutter",
 		"loadWallet": "Load Wallet"
 	},
 	"trips": {

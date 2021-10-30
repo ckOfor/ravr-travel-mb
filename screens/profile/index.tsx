@@ -396,7 +396,7 @@ const Profile = ({ navigation, route, authSearchKey }) => {
                         <View
                             style={{
                                 alignItems: 'center',
-                                marginTop: Layout.window.height / 20
+                                // marginTop: Layout.window.height / 20
                             }}
                         >
                             {

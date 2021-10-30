@@ -45,7 +45,6 @@ const SCROLL_ROOT: ViewStyle = {
 const HEADER_VIEW: ViewStyle = {
     flexDirection: 'row',
     justifyContent: "space-between",
-    marginTop: Layout.window.height / 15,
     width: Layout.window.height / 2.5,
 };
 
@@ -290,125 +289,134 @@ const Trips = ({ navigation, route, authSearchKey }) => {
                 >
                     <View
                         style={{
-                            marginHorizontal: 15
+                            marginHorizontal: 15,
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            marginTop: Platform.OS === "ios" ? Layout.window.height / 20 : Layout.window.height / 30,
                         }}
                     >
-                        <View
-                            style={HEADER_VIEW}
-                        >
+                        <View>
                             <View
-                                style={TITLE_VIEW}
+                                style={HEADER_VIEW}
                             >
-                                <Text
-
-                                    style={DISCOVER}
+                                <View
+                                    style={TITLE_VIEW}
                                 >
-                                    {translate(`trips.header`)}
-                                </Text>
+                                    <Text
+
+                                        style={DISCOVER}
+                                    >
+                                        {translate(`viewTrips.header`)}
+                                    </Text>
+                                </View>
                             </View>
 
-                            <TouchableOpacity
-                                onPress={() => {
-                                    navigation.goBack()
-                                }}
-                                style={{
-                                    top: 10
-                                }}
-                            >
-                                <MaterialIcons
-                                    name="keyboard-backspace"
-                                    color={colors.ravrPurple}
-                                    size={26}
-                                />
-                            </TouchableOpacity>
+                            <Text
 
+                                style={DISCOVER_MORE}
+                            >
+                                {translate(`trips.body`)}
+                            </Text>
                         </View>
 
-                        <Text
 
-                            style={DISCOVER_MORE}
-                        >
-                            {translate(`trips.body`)}
-                        </Text>
-
-                        <Formik
-                            initialValues={{
-                                searchKey: authSearchKey
+                        <TouchableOpacity
+                            onPress={() => navigation.goBack()}
+                            style={{
+                                backgroundColor: colors.transparent
                             }}
-                            validationSchema={schema}
-                            onSubmit={({ searchKey }) => submit(searchKey)}
-                            enableReinitialize
                         >
-                            {({
-                                values,
-                                handleChange,
-                                handleBlur,
-                                errors,
-                                isValid,
-                                handleSubmit
-                            }: FormikProps<MyFormValues>) => (
-                                <View>
-                                    <TextField
-                                        name="searchKey"
-                                        keyboardType="default"
-                                        placeholderTx="landing.search"
-                                        value={values.searchKey}
-                                        onChangeText={handleChange("searchKey")}
-                                        onBlur={handleBlur("searchKey")}
-                                        autoCapitalize="none"
-                                        returnKeyType="search"
-                                        isInvalid={!isValid}
-                                        fieldError={errors.searchKey}
-                                        forwardedRef={searchKeyInput}
-                                        placeholderTextColor={colors.faddedGrey}
-                                        onSubmitEditing={() => handleSubmit()}
-                                        extraComponent={
-                                            <View
-                                                onPress={() => {
-                                                    // addToPackage(i)
-                                                }}
+                            <MaterialIcons
+                                name="keyboard-backspace"
+                                color={colors.ravrPurple}
+                                size={26}
+                            />
 
-                                            >
-                                                <View
-                                                    style={{
-                                                        top: 15,
-                                                        flexDirection: 'row',
-                                                        justifyContent: 'space-between'
-                                                    }}
-                                                >
+                        </TouchableOpacity>
 
-                                                    <Pressable
-                                                        style={POPULAR_PLACES}
-                                                    >
-                                                        <Text
 
-                                                            style={MORE}
-                                                        >
-                                                            {translate(`trips.results`)}
-                                                        </Text>
-                                                    </Pressable>
 
-                                                    <Pressable
-                                                        onPress={() => {
-                                                            searchKeyPicker.current.onPressDate()
-                                                        }}
-                                                        style={POPULAR_PLACES}
-                                                    >
-                                                        <FontAwesome
-                                                            name={"calendar"}
-                                                            color={colors.ravrPurple}
-                                                            size={24}
-                                                        />
-                                                    </Pressable>
-
-                                                </View>
-                                            </View>
-                                        }
-                                    />
-                                </View>
-                            )}
-                        </Formik>
                     </View>
+
+                    <Formik
+                        initialValues={{
+                            searchKey: authSearchKey
+                        }}
+                        validationSchema={schema}
+                        onSubmit={({ searchKey }) => submit(searchKey)}
+                        enableReinitialize
+                    >
+                        {({
+                            values,
+                            handleChange,
+                            handleBlur,
+                            errors,
+                            isValid,
+                            handleSubmit
+                        }: FormikProps<MyFormValues>) => (
+                            <View
+                                style={{
+                                    marginHorizontal: 10,
+                                    marginVertical: 20,
+                                    height: 70
+                                }}
+                            >
+                                <TextField
+                                    name="searchKey"
+                                    keyboardType="default"
+                                    placeholderTx="landing.search"
+                                    value={values.searchKey}
+                                    onChangeText={handleChange("searchKey")}
+                                    onBlur={handleBlur("searchKey")}
+                                    autoCapitalize="none"
+                                    returnKeyType="search"
+                                    isInvalid={!isValid}
+                                    fieldError={errors.searchKey}
+                                    forwardedRef={searchKeyInput}
+                                    placeholderTextColor={colors.faddedGrey}
+                                    onSubmitEditing={() => handleSubmit()}
+                                    extraComponent={
+                                        <View>
+                                            <View
+                                                style={{
+                                                    marginLeft: 15,
+                                                    marginTop: 15,
+                                                    flexDirection: 'row',
+                                                    justifyContent: 'space-between'
+                                                }}
+                                            >
+
+                                                <Pressable
+                                                    style={POPULAR_PLACES}
+                                                >
+                                                    <Text
+
+                                                        style={MORE}
+                                                    >
+                                                        {translate(`trips.results`)}
+                                                    </Text>
+                                                </Pressable>
+
+                                                <Pressable
+                                                    onPress={() => {
+                                                        searchKeyPicker.current.onPressDate()
+                                                    }}
+                                                    style={POPULAR_PLACES}
+                                                >
+                                                    <FontAwesome
+                                                        name={"calendar"}
+                                                        color={colors.ravrPurple}
+                                                        size={24}
+                                                    />
+                                                </Pressable>
+
+                                            </View>
+                                        </View>
+                                    }
+                                />
+                            </View>
+                        )}
+                    </Formik>
 
                     <View
                         style={{

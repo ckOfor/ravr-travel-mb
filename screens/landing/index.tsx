@@ -43,7 +43,7 @@ const SCROLL_ROOT: ViewStyle = {
 const HEADER_VIEW: ViewStyle = {
     flexDirection: 'row',
     justifyContent: "space-between",
-    marginTop: Layout.window.height / 15,
+    marginTop: Platform.OS === "ios" ? Layout.window.height / 20 : 25,
     width: Layout.window.height / 2.5,
 };
 

@@ -45,7 +45,7 @@ const SCROLL_ROOT: ViewStyle = {
 const HEADER_VIEW: ViewStyle = {
     flexDirection: 'row',
     justifyContent: "space-between",
-    marginTop: Layout.window.height / 15,
+    // marginTop: Layout.window.height / 15,
     width: Layout.window.height / 2.5,
 };
 
@@ -304,48 +304,56 @@ const AllTrips = ({ navigation, route, authSearchKey }) => {
                     style={SCROLL_ROOT}
                     scrollEnabled={false}
                 >
+                    
                     <View
                         style={{
-                            marginHorizontal: 15
+                            marginHorizontal: 15,
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            marginTop: Platform.OS === "ios" ? Layout.window.height / 20 : Layout.window.height / 30,
                         }}
                     >
-                        <View
-                            style={HEADER_VIEW}
-                        >
+                        <View>
                             <View
-                                style={TITLE_VIEW}
+                                style={HEADER_VIEW}
                             >
-                                <Text
-
-                                    style={DISCOVER}
+                                <View
+                                    style={TITLE_VIEW}
                                 >
-                                    {translate(`trips.header`)}
-                                </Text>
+                                    <Text
+
+                                        style={DISCOVER}
+                                    >
+                                        {translate(`trips.header`)}
+                                    </Text>
+                                </View>
                             </View>
 
-                            <TouchableOpacity
-                                onPress={() => {
-                                    navigation.goBack()
-                                }}
-                                style={{
-                                    top: 10
-                                }}
-                            >
-                                <MaterialIcons
-                                    name="keyboard-backspace"
-                                    color={colors.ravrPurple}
-                                    size={26}
-                                />
-                            </TouchableOpacity>
+                            <Text
 
+                                style={DISCOVER_MORE}
+                            >
+                                {translate(`trips.body`)}
+                            </Text>
                         </View>
 
-                        <Text
 
-                            style={DISCOVER_MORE}
+                        <TouchableOpacity
+                            onPress={() => navigation.goBack()}
+                            style={{
+                                backgroundColor: colors.transparent
+                            }}
                         >
-                            {translate(`trips.body`)}
-                        </Text>
+                            <MaterialIcons
+                                name="keyboard-backspace"
+                                color={colors.ravrPurple}
+                                size={26}
+                            />
+
+                        </TouchableOpacity>
+
+
+
                     </View>
 
                     <View

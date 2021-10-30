@@ -155,12 +155,27 @@ const fetchLocalTrips = async (payload): Promise<
   return processResponse(response)
 }
 
-const payForTrip = async (payload): Promise<
+const payForTripWithWallet = async (payload): Promise<
   Types.getResponse
 > => {
-  const response = await api.post(`/trips/pay`, payload)
+  const response = await api.post(`/trips/pay/wallet`, payload)
   return processResponse(response)
 }
+
+const payForTripWithPaystack = async (payload): Promise<
+  Types.getResponse
+> => {
+  const response = await api.post(`/trips/pay/paystack`, payload)
+  return processResponse(response)
+}
+
+const payForTripWithFlutterwave = async (payload): Promise<
+  Types.getResponse
+> => {
+  const response = await api.post(`/trips/pay/flutterwave`, payload)
+  return processResponse(response)
+}
+
 
 const searchForTrip = async (payload): Promise<
   Types.getResponse
@@ -187,6 +202,8 @@ export {
   fetchPopularTrips,
   fetchTrendingTrips,
   fetchLocalTrips,
-  payForTrip,
-  searchForTrip
+  payForTripWithWallet,
+  searchForTrip,
+  payForTripWithPaystack,
+  payForTripWithFlutterwave
 }
