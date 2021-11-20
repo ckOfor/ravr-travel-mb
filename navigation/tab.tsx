@@ -88,7 +88,7 @@ const RootNavigator = () => {
             }
 
             {/* Finace */}
-            {
+            {/* {
                 isLoggedIn && (
                     <Tab.Screen
                         name="Finance"
@@ -104,7 +104,7 @@ const RootNavigator = () => {
                         }}
                     />
                 )
-            }
+            } */}
 
             {/* User */}
             <Tab.Screen

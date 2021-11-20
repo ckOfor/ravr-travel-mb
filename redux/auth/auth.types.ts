@@ -37,6 +37,24 @@ type setUserDetails = {
 	payload: IUser
 }
 
+export const TOGGLE_WEBVIEW = "TOGGLE_WEBVIEW"
+type toggleWebView = {
+	type: typeof TOGGLE_WEBVIEW
+	payload: boolean
+}
+
+export const SET_WEBVIEW = "SET_WEBVIEW"
+type saveWebViewURL = {
+	type: typeof SET_WEBVIEW
+	payload: string
+}
+
+export const SET_SELECTED_AMOUNT = "SET_SELECTED_AMOUNT"
+type setSelectedAmount = {
+	type: typeof SET_SELECTED_AMOUNT
+	payload: number
+}
+
 export const SET_SEARCH_RESULTS = "SET_SEARCH_RESULTS"
 type setSearchResult = {
 	type: typeof SET_SEARCH_RESULTS
@@ -228,6 +246,9 @@ export type AuthState = {
 	trending: Array<any>
 	local: Array<any>
 	searchResults: Array<any>
+	showWebView: boolean
+	webViewURL: string
+	selectedAmount: number
 }
 
 export type authCredentials = {
@@ -241,6 +262,9 @@ export type AuthAction =
 	| SignInUserFailure
 	| SignInUserSuccess
 	| setUserDetails
+	| toggleWebView
+	| saveWebViewURL
+	| setSelectedAmount
 	| toggleBiometric
 	| SavePin
 	| SocialAuthenticationAction

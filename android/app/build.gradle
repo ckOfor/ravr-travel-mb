@@ -130,13 +130,12 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
     defaultConfig {
         applicationId "com.ravr.ravrapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 5
-        versionName "3.0.2"
+        versionCode 29999999
+        versionName "27.0.1"
     }
     splits {
         abi {
@@ -184,6 +183,11 @@ android {
 }
 
 dependencies {
+    // If your app supports Android versions before Ice Cream Sandwich (API level 14)
+    implementation 'com.facebook.fresco:animated-base-support:1.3.0'
+    
+    // For animated GIF support
+    implementation 'com.facebook.fresco:animated-gif:2.0.0'
     //Add these lines
     implementation "com.google.android.gms:play-services-base:17.6.0"
     implementation "com.google.firebase:firebase-core:19.0.2"

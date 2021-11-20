@@ -14,14 +14,18 @@ import { useFocusEffect } from '@react-navigation/native';
 import { MaterialCommunityIcons, Entypo, Feather, AntDesign } from 'react-native-vector-icons';
 import SlidingUpPanel from "rn-sliding-up-panel";
 import moment from "moment";
+import { FlutterwaveInit } from 'flutterwave-react-native';
+import { FLUTTER_PUBLIC_KEY } from "@env"
+import { WebView } from 'react-native-webview';
 
 // redux
-import { notify, payForTripWithWallet } from "../../redux/auth";
+import { notify, payForTripWithFlutterwave, payForTripWithPaystack, payForTripWithWallet, toggleWebView } from "../../redux/auth";
 import useReduxStore from "../../utils/hooks/useRedux";
 
 // components
 import { Button } from "../../components/button";
 import { TextField } from "../../components/text-field";
+import { Header } from "../../components/header";
 
 // styles
 import { Layout } from "../../constants";
@@ -142,6 +146,11 @@ const ViewTrips = ({ navigation, route, authSearchKey }) => {
     const [dispatch, selectStore] = useReduxStore("auth");
     const loading = selectStore("loading");
     const user = selectStore("user");
+    const webViewURL = selectStore("webViewURL");
+    const selectedAmount = selectStore("selectedAmount");
+    const showWebView = selectStore("showWebView");
+    console.log(webViewURL, "webViewURL")
+    console.log(showWebView, "showWebView")
 
     const {
         location, name, imageOne, imageTwo, imageThree, poster, startDate, endDate, packages, description, id,
@@ -149,20 +158,18 @@ const ViewTrips = ({ navigation, route, authSearchKey }) => {
     } = route.params.trip
 
 
-    console.log(route.params.trip, "paymentList")
     // PROPS
     const [tripStartDate, setTripStartDate] = useState('')
     const [tripEndDate, setTripEndDate] = useState('')
     const [dateDiff, setDateDiff] = useState('')
     const [paymentMethod, setPaymentMethod] = useState('')
     const [selectedPackage, setSelectedPackage] = useState([])
+    const [paymentLink, setPaymentLink] = useState('')
+    const [isLoading, setLoading] = useState(false)
     let slidingUpPanelRef = useRef<SlidingUpPanel>(null);
     let numberOfPeopleInput = useRef(null)
     let formikRef = useRef(null)
-    console.log(route.params.trip, "route.params.trip")
-    const [totalAmount, setTotalAmount] = useState('')
-
-    console.log(user)
+    const [totalAmount, setTotalAmount] = useState(0)
 
     // LIFECYCLE
     useFocusEffect(
@@ -183,18 +190,12 @@ const ViewTrips = ({ navigation, route, authSearchKey }) => {
     }
 
     const calculateDate = () => {
-        console.log(startDate, "<=== startDate")
-        console.log(endDate, "<=== endDate")
 
         const firstTwoStart = parseInt(startDate.substring(0, 2))
         const firstTwoEnd = parseInt(startDate.substring(0, 2))
 
         const middleTwoStart = parseInt(startDate.substring(3, 6))
         const middleTwoEnd = parseInt(startDate.substring(3, 6))
-
-        console.log(middleTwoStart, "<=== startDate")
-        console.log(middleTwoEnd, "<=== endDate")
-
 
         const lastFourStart = parseInt(startDate.substr(startDate.length - 4))
         const lastFourEnd = parseInt(endDate.substr(endDate.length - 4))
@@ -211,16 +212,9 @@ const ViewTrips = ({ navigation, route, authSearchKey }) => {
         setTripStartDate(`${moment(tripStartDate).format('Do dddd MMM')}`)
         setTripEndDate(`${moment(tripEndDate).format('Do dddd MMM')}`)
         setDateDiff(daysDiff)
-
-
-
-        console.log(tripStartDate); // Gives day count of difference
-        console.log(tripEndDate); // Gives day count of difference
-        console.log(dateDiff); // Gives day count of difference
-        // 4
     }
 
-    const submit = (values: any) => {
+    const submit = async (values: any) => {
         const { numberOfPeople } = values
         const payload = {
             tripId: id,
@@ -228,14 +222,65 @@ const ViewTrips = ({ navigation, route, authSearchKey }) => {
             selectedPackage
         }
 
-        console.log(numberOfPeople % 1 != 0, "<== payload")
-
         if (numberOfPeople % 1 != 0) {
             dispatch(notify(`${translate('trips.invalidNumber')}`, 'Error'))
         } else {
             // dispatch(payForTrip(payload))
+            const generatedId = [...Array(10)].map(i => (~~(Math.random() * 36)).toString(36)).join('');
+            const tx_ref = `ravr_${generatedId}`;
 
             if (paymentMethod === "wallet") return dispatch(payForTripWithWallet(payload))
+
+            if (paymentMethod === "flutterwave") {
+                const amount = totalAmount * returnPrice(selectedPackage.price)
+                const flutterwaveCharge = 0.014 * amount
+                const amountToCharge = (flutterwaveCharge > 2000 ? 2000 : flutterwaveCharge) + amount
+
+                try {
+                    // initialize payment
+                    const paymentLink = await FlutterwaveInit({
+                        tx_ref,
+                        authorization: FLUTTER_PUBLIC_KEY,
+                        amount: amountToCharge,
+                        currency: 'NGN',
+                        customer: {
+                            email: user.email
+                        },
+                        payment_options: 'card',
+                        redirect_url: 'https://ravr-travel.herokuapp.com/api/v1/trips/pay/success'
+                    });
+                    // use payment link
+                    // console.log(paymentLink);
+                    setPaymentLink(paymentLink)
+                    // setShowWebView(true)
+                    dispatch(payForTripWithFlutterwave({
+                        ...payload,
+                        reference: tx_ref,
+                        paymentLink
+                    }))
+                    console.log("called")
+
+                } catch (error) {
+                    console.log("error", error)
+
+                    // handle payment error
+                    dispatch(notify(error.message, 'Error'))
+                }
+            }
+
+            if (paymentMethod === "paystack") {
+                const amount = totalAmount * returnPrice(selectedPackage.price)
+
+                const paystackCharge = (0.015 * amount)
+                const amountToCharge = (amount < 2500 ? paystackCharge : paystackCharge + 100) + amount
+
+                dispatch(payForTripWithPaystack({
+                    ...payload,
+                    reference: tx_ref,
+                    paymentLink,
+                    amount: amountToCharge * 100
+                }))
+            }
         }
     }
 
@@ -396,8 +441,6 @@ const ViewTrips = ({ navigation, route, authSearchKey }) => {
     const returnUsers = ({ item }) => {
         const { picture, packagePrice, name, packageName, numberOfPeople } = item
 
-        console.log(item)
-
         return (
             <View
                 style={{
@@ -498,6 +541,58 @@ const ViewTrips = ({ navigation, route, authSearchKey }) => {
                 </View>
 
             </View>
+        )
+    }
+
+    if (showWebView) {
+        return (
+            <View
+                style={{
+                    height: Layout.window.height > 700 ? Layout.window.height / 1.1 : Layout.window.height / 1.07
+                }}
+            >
+
+                <Header
+                    navigation={navigation}
+                    onRightPress={() => {
+                        dispatch(toggleWebView(false))
+                    }}
+                    rightView={
+                        <TouchableOpacity
+                            onPress={() => {
+                                dispatch(toggleWebView(false))
+                            }}
+                        >
+                            <MaterialCommunityIcons
+                                name="cancel"
+                                color={colors.ravrPurple}
+                                size={26}
+                            />
+
+                        </TouchableOpacity>
+                    }
+                />
+
+                {
+                    loading && (
+                        <ActivityIndicator
+                            color={colors.ravrPurple}
+                            size="large"
+                            style={{
+                                marginTop: Layout.window.height / 3
+                            }}
+                        />
+                    )
+                }
+
+                <WebView
+                    source={{ uri: webViewURL }}
+                    onLoadEnd={() => {
+                        // setLoading(false)
+                    }}
+                />
+            </View>
+
         )
     }
 
@@ -823,7 +918,6 @@ const ViewTrips = ({ navigation, route, authSearchKey }) => {
                                         value={values.numberOfPeople}
                                         onChangeText={handleChange("numberOfPeople")}
                                         onChange={(test) => {
-                                            console.log(test.nativeEvent.text)
                                             setTotalAmount(test.nativeEvent.text)
                                         }}
                                         onBlur={handleBlur("numberOfPeople")}
@@ -883,7 +977,7 @@ const ViewTrips = ({ navigation, route, authSearchKey }) => {
                                             </Text>
                                         </TouchableOpacity>
 
-                                        <TouchableOpacity
+                                        {/* <TouchableOpacity
                                             disabled={!isValid || loading}
                                             onPress={() => {
                                                 setPaymentMethod('wallet')
@@ -910,37 +1004,43 @@ const ViewTrips = ({ navigation, route, authSearchKey }) => {
                                             >
                                                 Wallet
                                             </Text>
-                                        </TouchableOpacity>
+                                        </TouchableOpacity> */}
 
-                                        <TouchableOpacity
-                                            disabled={!isValid || loading}
-                                            onPress={() => {
-                                                setPaymentMethod('flutterwave')
-                                                handleSubmit()
-                                            }}
-                                            style={{
-                                                alignItems: 'center'
-                                            }}
-                                        >
-                                            <Image
-                                                source={images.flutterwave}
-                                                style={{
-                                                    height: 50,
-                                                    width: 50,
-                                                    borderRadius: 25
-                                                }}
-                                                resizeMode={"contain"}
-                                                resizeMethod="auto"
+                                        {
+                                            // (totalAmount * returnPrice(selectedPackage.price)) <= 500000 && (
+                                                <TouchableOpacity
+                                                    disabled={!isValid || loading}
+                                                    onPress={() => {
+                                                        setPaymentMethod('flutterwave')
+                                                        handleSubmit()
+                                                    }}
+                                                    style={{
+                                                        alignItems: 'center'
+                                                    }}
+                                                >
+                                                    <Image
+                                                        source={images.flutterwave}
+                                                        style={{
+                                                            height: 50,
+                                                            width: 50,
+                                                            borderRadius: 25
+                                                        }}
+                                                        resizeMode={"contain"}
+                                                        resizeMethod="auto"
 
-                                            />
+                                                    />
 
-                                            <Text
+                                                    <Text
 
-                                                style={paymentCompany}
-                                            >
-                                                Flutterwave
-                                            </Text>
-                                        </TouchableOpacity>
+                                                        style={paymentCompany}
+                                                    >
+                                                        Flutterwave
+                                                    </Text>
+                                                </TouchableOpacity>
+                                            // )
+                                        }
+
+
                                     </View>
 
                                     {

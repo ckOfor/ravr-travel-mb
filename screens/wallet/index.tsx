@@ -740,19 +740,24 @@ const Wallet = ({ navigation, route, authSearchKey }) => {
                                         </View>
 
                                         <TouchableOpacity
-                                            onPress={() => {
-                                                Clipboard.setString(accountNumber);
-                                                Alert.alert(
-                                                    `${translate('redeem.copyBody')}`,
-                                                    [
-                                                        {
-                                                            text: 'OK', onPress: () => {
-                                                                console.log('OK Pressed')
-                                                            }
-                                                        },
-                                                    ],
-                                                    { cancelable: false },
-                                                );
+                                            onPress={async () => {
+                                                try {
+                                                    await Clipboard.setString(accountNumber);
+                                                    Alert.alert(
+                                                        `${translate('redeem.copy')}`,
+                                                        `${translate('redeem.copyBody')}`,
+                                                        [
+                                                            {
+                                                                text: 'OK', onPress: () => {
+                                                                    console.log('OK Pressed')
+                                                                }
+                                                            },
+                                                        ],
+                                                        { cancelable: false },
+                                                    );
+                                                } catch (e) {
+                                                    console.log(e)
+                                                }
                                             }}
                                             style={{
                                                 flexDirection: 'row',
@@ -888,9 +893,9 @@ const Wallet = ({ navigation, route, authSearchKey }) => {
                             contentContainerStyle={{
                                 paddingBottom: Layout.window.height / 1.05,
                                 // marginHorizontal: 40
-// 
+                                // 
                             }}
-                            
+
                         />
                     }
 

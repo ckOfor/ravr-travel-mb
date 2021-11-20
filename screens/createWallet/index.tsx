@@ -158,8 +158,9 @@ const CreateWallet = ({ navigation, route, authbvn }) => {
     );
 
     const submit = (value: MyFormValues) => {
-        console.log(value)
         const { phoneNumber, bvn } = value
+        console.log(phoneNumber, bvn)
+
         dispatch(createWallet(phoneNumber, bvn))
     }
 
@@ -213,7 +214,7 @@ const CreateWallet = ({ navigation, route, authbvn }) => {
                             phoneNumber: ""
                         }}
                         validationSchema={schema}
-                        onSubmit={({ bvn }) => submit(bvn)}
+                        onSubmit={(values) => submit(values)}
                         enableReinitialize
                     >
                         {({

@@ -60,9 +60,11 @@ import {
 	fetchTrendingTrips as apiFetcchTrendingTrips,
 	fetchLocalTrips as apiFetchLocalTrips,
 	payForTripWithWallet as apiPayForTripWithWallet,
+	payForTripWithFlutterwave as apiPayForTripWithFlutterwave,
+	payForTripWithPaystack as apiPayForTripWithPaystack ,
 	searchForTrip as apiSeearchTrip
 } from "../../services/api"
-import { SET_COUPONS, SET_LOCAL_TRIPS, SET_POPULAR_TRIPS, SET_SEARCH_RESULTS, SET_TRANSACTIONS, SET_TRENDING_TRIPS } from ".";
+import { SET_COUPONS, SET_LOCAL_TRIPS, SET_POPULAR_TRIPS, SET_SEARCH_RESULTS, SET_SELECTED_AMOUNT, SET_TRANSACTIONS, SET_TRENDING_TRIPS, SET_WEBVIEW, TOGGLE_WEBVIEW } from ".";
 // import { Toast } from "native-base";
 
 export const signInUser = () => ({
@@ -270,6 +272,49 @@ export const googleUserSignInAsync = (): ThunkAction<
 		);
 	}
 }
+
+
+export const emailSignUpAction = (payload: any): ThunkAction<
+	void,
+	ApplicationState,
+	null,
+	Action<any>
+> => async (dispatch, getState) => {
+	let notificationId = await firebase.messaging().getToken();
+	console.log({
+		...payload,
+		notificationId,
+		password: Crypto.SHA512(payload.password).toString(),
+	}, "<=== emailSignUpActionpayload")
+
+	const details = {
+		...payload,
+		notificationId,
+		password: Crypto.SHA512(payload.password).toString(),
+	}
+
+	console.log(details, "<=== emailSignUpActiondetails")
+
+	dispatch(socialAuthentication())
+
+	try {
+		const result = await apiSignInUser(details)
+		const { kind, data } = result
+
+		console.log(result, "HERE!!!")
+
+		if (kind === "ok") {
+			dispatch(socialAuthenticationSuccess())
+		} else {
+			dispatch(notify(`${data.message}`, 'Error'))
+			dispatch(socialAuthenticationFailure())
+		}
+	} catch ({ message }) {
+		dispatch(socialAuthenticationFailure())
+		dispatch(notify(`${message}`, 'Error'))
+	}
+}
+
 
 export const signInSignUp = (payload: any): ThunkAction<
 	void,
@@ -894,7 +939,7 @@ export const payForTripWithWallet = (details: any): ThunkAction<
 		...details,
 	}
 
-	console.log(payload, "<==== payForTripWithPaystack")
+	console.log(payload, "<==== payForTripWithWallet")
 
 	try {
 		const result = await apiPayForTripWithWallet(payload)
@@ -917,6 +962,47 @@ export const payForTripWithWallet = (details: any): ThunkAction<
 	}
 }
 
+export const toggleWebView = (value: boolean) => ({ type: TOGGLE_WEBVIEW, payload: value })
+export const saveWebViewURL = (value: string) => ({ type: SET_WEBVIEW, payload: value })
+export const saveSelectedAmountURL = (value: string) => ({ type: SET_SELECTED_AMOUNT, payload: value })
+
+export const payForTripWithFlutterwave = (details: any): ThunkAction<
+	void,
+	ApplicationState,
+	null,
+	Action<any>
+> => async (dispatch, getState) => {
+	dispatch(socialAuthentication())
+
+	const payload = {
+		email: getState().auth.user.email,
+		password: getState().auth.user.password,
+		...details,
+	}
+
+	console.log(payload, "<==== payForTripWithFlutterwave")
+
+	try {
+		const result = await apiPayForTripWithFlutterwave(payload)
+		const { kind, data } = result
+
+		console.log(data.data, "HERE!!!")
+
+		if (kind === "ok") {
+			dispatch(socialAuthenticationSuccess())
+			dispatch(saveSelectedAmountURL(data.data.amountToCharge))
+			// dispatch(fetchUser())
+			dispatch(saveWebViewURL(data.data.paymentLink))
+			dispatch(toggleWebView(true))
+		} else {
+			dispatch(notify(`${data.message}`, 'Error'))
+			dispatch(socialAuthenticationFailure())
+		}
+	} catch ({ message }) {
+		dispatch(notify(`${translate('common.error')}`, 'Error'))
+		dispatch(socialAuthenticationFailure())
+	}
+}
 
 export const payForTripWithPaystack = (details: any): ThunkAction<
 	void,
@@ -935,53 +1021,17 @@ export const payForTripWithPaystack = (details: any): ThunkAction<
 	console.log(payload, "<==== payForTripWithPaystack")
 
 	try {
-		const result = await apiPayForTrip(payload)
+		const result = await apiPayForTripWithPaystack(payload)
 		const { kind, data } = result
 
 		console.log(data.data, "HERE!!!")
 
 		if (kind === "ok") {
 			dispatch(socialAuthenticationSuccess())
-			dispatch(fetchUser())
-			dispatch(notify(`${data.message}`, 'success'))
-			dispatch(fetchTransactions(10))
-		} else {
-			dispatch(notify(`${data.message}`, 'Error'))
-			dispatch(socialAuthenticationFailure())
-		}
-	} catch ({ message }) {
-		dispatch(notify(`${translate('common.error')}`, 'Error'))
-		dispatch(socialAuthenticationFailure())
-	}
-}
-
-export const payForTripWithFlutterwave = (details: any): ThunkAction<
-	void,
-	ApplicationState,
-	null,
-	Action<any>
-> => async (dispatch, getState) => {
-	dispatch(socialAuthentication())
-
-	const payload = {
-		email: getState().auth.user.email,
-		password: getState().auth.user.password,
-		...details,
-	}
-
-	console.log(payload, "<==== payForTripWithPaystack")
-
-	try {
-		const result = await apiPayForTripWithWallet(payload)
-		const { kind, data } = result
-
-		console.log(data.data, "HERE!!!")
-
-		if (kind === "ok") {
-			dispatch(socialAuthenticationSuccess())
-			dispatch(fetchUser())
-			dispatch(notify(`${data.message}`, 'success'))
-			dispatch(fetchTransactions(10))
+			// dispatch(saveSelectedAmountURL(data.data.amountToCharge))
+			// dispatch(fetchUser())
+			dispatch(saveWebViewURL(data.data.authorization_url))
+			dispatch(toggleWebView(true))
 		} else {
 			dispatch(notify(`${data.message}`, 'Error'))
 			dispatch(socialAuthenticationFailure())

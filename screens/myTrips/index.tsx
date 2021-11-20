@@ -194,7 +194,6 @@ const MyTrips = ({ navigation, route, authSearchKey }) => {
     const [allTrips, setAllTrips] = useState([])
 
     const isRegisteredAndVerified = companies.length > 0 && companies[0].status === "approved"
-    console.log(user, "<=== user")
 
     // PROPS
     let rcNumberInput = useRef(null)
@@ -213,7 +212,7 @@ const MyTrips = ({ navigation, route, authSearchKey }) => {
         {
             id: 2,
             value: "incorprated_Trustee",
-            label: "Incorprated Trustee",
+            label: "Incorporated Trustee",
         },
     ];
     const [type, setType] = useState([]);
@@ -486,7 +485,7 @@ const MyTrips = ({ navigation, route, authSearchKey }) => {
     return (
         <KeyboardAvoidingView
             enabled={true}
-            behavior={"padding"}
+            // behavior={"padding"}
             keyboardVerticalOffset={100}
             style={{
                 backgroundColor: 'white'
@@ -519,7 +518,6 @@ const MyTrips = ({ navigation, route, authSearchKey }) => {
                         </View>
                     </View>
                 </View>
-
 
                 {
                     companies.length < 1 && <TouchableOpacity
@@ -654,7 +652,7 @@ const MyTrips = ({ navigation, route, authSearchKey }) => {
             <SlidingUpPanel
                 ref={slidingUpPanelRef}
                 draggableRange={{
-                    top: Layout.window.height / 1.5,
+                    top: Layout.window.height / 1.2,
                     bottom: 0,
                 }}
                 friction={0.5}

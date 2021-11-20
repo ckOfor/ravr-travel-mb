@@ -1,4 +1,4 @@
-import { SET_BALANCE, SET_COUPONS, SET_LOCAL_TRIPS, SET_POPULAR_TRIPS, SET_TRANSACTIONS, SET_TRENDING_TRIPS, SOCIAL_AUTHENTICATION, SOCIAL_AUTHENTICATION_FAILURE, SOCIAL_AUTHENTICATION_SUCCESS, TOGGLE_BIOMETRICS } from "."
+import { SET_BALANCE, SET_COUPONS, SET_LOCAL_TRIPS, SET_POPULAR_TRIPS, SET_TRANSACTIONS, SET_TRENDING_TRIPS, SOCIAL_AUTHENTICATION, SOCIAL_AUTHENTICATION_FAILURE, SOCIAL_AUTHENTICATION_SUCCESS, TOGGLE_BIOMETRICS, TOGGLE_WEBVIEW } from "."
 import {
 	AuthAction,
 	AuthState,
@@ -9,6 +9,8 @@ import {
 	SET_USER_DETAILS,
 	IS_LOGGED_IN,
 	SET_SEARCH_RESULTS,
+	SET_WEBVIEW,
+	SET_SELECTED_AMOUNT,
 } from "./auth.types"
 
 const IUser = {
@@ -47,6 +49,9 @@ const initialState: AuthState = {
 	trending: [],
 	local: [],
 	searchResults: [],
+	showWebView: false,
+	webViewURL: '',
+	selectedAmount: 0
 }
 
 export function authReducer(
@@ -135,6 +140,24 @@ export function authReducer(
 			return {
 				...state,
 				searchResults: action.payload,
+			}
+
+		case TOGGLE_WEBVIEW:
+			return {
+				...state,
+				showWebView: action.payload,
+			}
+
+		case SET_WEBVIEW:
+			return {
+				...state,
+				webViewURL: action.payload,
+			}
+
+		case SET_SELECTED_AMOUNT:
+			return {
+				...state,
+				selectedAmount: action.payload,
 			}
 
 		default:

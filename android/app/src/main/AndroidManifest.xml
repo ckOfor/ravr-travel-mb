@@ -64,6 +64,8 @@
       android:launchMode="singleTask"
       android:windowSoftInputMode="adjustResize"
       android:theme="@style/Theme.App.SplashScreen"
+      android:versionCode="100"
+      android:versionName="30.0"
     >
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>

@@ -33,7 +33,7 @@ import { colors, fonts, images } from "../../theme";
 // util
 import { translate } from "../../i18n";
 import useReduxStore from "../../utils/hooks/useRedux";
-import { signInSignUp } from "../../redux/auth";
+import { emailSignUpAction } from "../../redux/auth";
 
 const ROOT: ViewStyle = {
     height: Layout.window.height,
@@ -74,7 +74,7 @@ const SIGN_IN_TEXT: TextStyle = {
 const termsAndConditions: TextStyle = {
     fontSize: 14,
     marginLeft: 20,
-    marginTop: Layout.window.height / 20,
+    marginTop: 10,
     color: colors.white,
     fontFamily: fonts.RubikMedium,
     textAlign: 'left',
@@ -174,7 +174,8 @@ const EmailSignUp = ({ navigation, route, authSearchKey }) => {
                 firebase.auth().onAuthStateChanged(function (user) {
                     user.sendEmailVerification();
                 });
-                dispatch(signInSignUp(payload))
+                dispatch(emailSignUpAction(payload))
+                navigation.navigate('Auth')
             })
             .catch((error) => {
                 const { code, message } = error;
@@ -198,14 +199,14 @@ const EmailSignUp = ({ navigation, route, authSearchKey }) => {
         <KeyboardAvoidingView
             enabled={true}
             behavior={Platform.OS === "ios" ? "padding" : "height"}
-            // style={{ flex: 1 }}
+        // style={{ flex: 1 }}
         >
             <ScrollView
                 style={{
                     height: Layout.window.height,
                     // marginBottom: 1000
                 }}
-                // bounces={false}
+            // bounces={false}
             >
                 <ImageBackground
                     source={images.bikeMan}
@@ -332,7 +333,7 @@ const EmailSignUp = ({ navigation, route, authSearchKey }) => {
                                         forwardedRef={confirmPasswordInput}
                                         blurOnSubmit={false}
                                         onSubmitEditing={() => {
-                                            handleSubmit()
+                                            // handleSubmit()
                                             Keyboard.dismiss()
                                         }}
                                     />
@@ -354,12 +355,17 @@ const EmailSignUp = ({ navigation, route, authSearchKey }) => {
                         )}
                     </Formik>
 
-                    <Text
-
-                        style={BOTTOM_TEXT}
+                    <TouchableOpacity
+                        onPress={() => navigation.goBack()}
                     >
-                        {translate("emailSignUp.member")}
-                    </Text>
+
+                        <Text
+
+                            style={BOTTOM_TEXT}
+                        >
+                            {translate("emailSignUp.member")}
+                        </Text>
+                    </TouchableOpacity>
 
                     <TouchableOpacity
                         onPress={() => navigation.navigate('EmailSignIn')}

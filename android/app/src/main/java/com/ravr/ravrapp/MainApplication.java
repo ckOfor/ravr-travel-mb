@@ -34,6 +34,7 @@ import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 
 import com.levelasquez.androidopensettings.AndroidOpenSettingsPackage; // <-- add this import
+//import com.facebook.react.BuildConfig;
 
 
 public class MainApplication extends Application implements ReactApplication {

@@ -45,7 +45,6 @@ const SCROLL_ROOT: ViewStyle = {
 const HEADER_VIEW: ViewStyle = {
     flexDirection: 'row',
     justifyContent: "space-between",
-    // marginTop: Layout.window.height / 15,
     width: Layout.window.height / 2.5,
 };
 
@@ -304,7 +303,7 @@ const AllTrips = ({ navigation, route, authSearchKey }) => {
                     style={SCROLL_ROOT}
                     scrollEnabled={false}
                 >
-                    
+
                     <View
                         style={{
                             marginHorizontal: 15,
@@ -352,72 +351,41 @@ const AllTrips = ({ navigation, route, authSearchKey }) => {
 
                         </TouchableOpacity>
 
-
-
                     </View>
 
-                    <View
+                    <FlatList
+                        data={data}
+                        keyExtractor={(item, index) => index.toString()}
+                        onEndReached={() => {
+                            console.log("route.params.mode ===>", route.params.mode)
+                            console.log("limit ===>", limit)
+                            setLimit(limit + 10)
+                            if (route.params.mode === "popular") {
+                                console.log("poplular ===>", limit)
+                                return dispatch(fetchPopularTrips(limit + 10))
+                            }
+
+                            if (route.params.mode === "trending") {
+                                console.log("trending ===>", limit)
+                                return dispatch(fetchTrendingTrips(limit + 10))
+                            }
+
+                            if (route.params.mode === "local") {
+                                console.log("local ===>", limit)
+                                return dispatch(fetchLocalTrips(limit + 10))
+                            }
+                        }}
+                        onEndReachedThreshold={0.01}
+                        ListFooterComponent={() => loading ? <ActivityIndicator /> : null}
+                        renderItem={renderTrip}
                         style={{
-                            marginHorizontal: 20
+                            margin: 20,
+                            height: Layout.window.height,
                         }}
-                    >
-
-
-                        <View style={{ height: Layout.window.height / 1.3 }}>
-                            <FlatList
-                                data={data}
-                                keyExtractor={(item, index) => index.toString()}
-                                onEndReached={() => {
-                                    console.log("route.params.mode ===>", route.params.mode)
-                                    setLimit(limit + 10)
-                                    if (route.params.mode === "popular") {
-                                        console.log("poplular ===>", limit)
-                                        return dispatch(fetchPopularTrips(limit + 10))
-                                    }
-
-                                    if (route.params.mode === "trending") {
-                                        console.log("trending ===>", limit)
-                                        return dispatch(fetchTrendingTrips(limit + 10))
-                                    }
-
-                                    if (route.params.mode === "local") {
-                                        console.log("local ===>", limit)
-                                        return dispatch(fetchLocalTrips(limit + 10))
-                                    }
-                                }}
-                                onEndReachedThreshold={0.01}
-                                ListFooterComponent={() => loading ? <ActivityIndicator /> : null}
-                                renderItem={renderTrip}
-                                style={{
-                                    marginBottom: Layout.window.height / 10
-                                }}
-                                showsVerticalScrollIndicator={false}
-                            />
-                        </View>
-
-
-                    </View>
-
-                    <DatePicker
-                        style={{
-                            height: 1,
-                            width: 1
+                        showsVerticalScrollIndicator={false}
+                        contentContainerStyle={{
+                            paddingBottom: Layout.window.height / 3.5
                         }}
-                        ref={searchKeyPicker}
-                        showIcon={false}
-                        hideText={true}
-                        date={searchKey}
-                        androidMode="spinner"
-                        mode="date"
-                        confirmBtnText="OK"
-                        cancelBtnText="CANCEL"
-                        format="DD-MM-YYYY"
-                        onDateChange={date => {
-                            setsearchKey(date);
-                            dispatch(searchForTrip(date, limit))
-                        }}
-                        // maxDate={moment().subtract(18, "years")}
-                        minDate={new Date(Date.now())}
                     />
 
                 </ScrollView>
